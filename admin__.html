@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel | KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+
+<!-- Admin Login Section -->
+<div id="loginBox" class="min-h-screen flex justify-center items-center">
+  <div class="bg-white p-8 rounded shadow w-96">
+    <h2 class="text-2xl font-bold mb-4 text-center">Admin Login</h2>
+    <input type="text" id="adminPhone" placeholder="Phone" class="w-full border p-2 mb-3 rounded" />
+    <input type="password" id="adminPassword" placeholder="Password" class="w-full border p-2 mb-3 rounded" />
+    <button onclick="adminLogin()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminDashboard" class="hidden px-6 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+    <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex space-x-4 mb-6">
+    <button class="tab-btn bg-gray-300 px-4 py-2 rounded" data-tab="workers">Manage Workers</button>
+    <button class="tab-btn bg-gray-300 px-4 py-2 rounded" data-tab="customers">Manage Customers</button>
+    <button class="tab-btn bg-gray-300 px-4 py-2 rounded" data-tab="bookings">View Bookings</button>
+  </div>
+
+  <!-- Workers -->
+  <div id="workers" class="tab-content hidden">
+    <h2 class="text-xl font-semibold mb-2">All Workers</h2>
+    <div id="workerList" class="grid gap-4"></div>
+  </div>
+
+  <!-- Customers -->
+  <div id="customers" class="tab-content hidden">
+    <h2 class="text-xl font-semibold mb-2">All Customers</h2>
+    <div id="customerList" class="grid gap-4"></div>
+  </div>
+
+  <!-- Bookings -->
+  <div id="bookings" class="tab-content hidden">
+    <h2 class="text-xl font-semibold mb-2">Bookings</h2>
+    <div id="bookingList" class="grid gap-4"></div>
+  </div>
+</div>
+
+<script>
+  function showSection(id) {
+    $('.section').removeClass('active');
+    $('#' + id).addClass('active');
+    $('.sidebar ul li').removeClass('active');
+    $(`.sidebar ul li:contains(${id.replace(/([A-Z])/g, ' $1').trim()})`).addClass('active');
+    if (id === 'viewCustomers') loadUsers('customer');
+    if (id === 'viewWorkers') loadUsers('worker');
+    if (id === 'viewAdmins') loadUsers('admin');
+  }
+
+  function logout() {
+    localStorage.removeItem('admin');
+    window.location.href = 'index2.html';
+  }
+
+  async function loadUsers(role) {
+    const res = await fetch(`http://localhost:5000/api/users`);
+    const allUsers = await res.json();
+    const filtered = allUsers.filter(u => u.role === role);
+    const tableId = role === 'customer' ? '#customerTable' : role === 'worker' ? '#workerTable' : '#adminTable';
+    const container = $(tableId).empty();
+    filtered.forEach(user => {
+      const userData = encodeURIComponent(JSON.stringify(user));
+      const row = `<tr>
+        <td>${user.name}</td>
+        <td>${user.phone}</td>
+        <td>${role === 'admin' ? user.email : role === 'worker' ? user.type : user.city}</td>
+        <td class="table-actions">
+          <button class="btn btn-sm btn-info" onclick='editUser(decodeURIComponent("${userData}"))'>Edit</button>
+          <button class="btn btn-sm btn-danger" onclick='deleteUser("${user._id}")'>Delete</button>
+        </td>
+      </tr>`;
+      container.append(row);
+    });
+  }
+
+  function editUser(userStr) {
+    const user = JSON.parse(userStr);
+    const formHtml = `
+      <form id="editForm">
+        <input class="form-control mb-2" name="name" value="${user.name}" placeholder="Name" required />
+        <input class="form-control mb-2" name="phone" value="${user.phone}" placeholder="Phone" required />
+        <input class="form-control mb-2" name="email" value="${user.email || ''}" placeholder="Email" />
+        <input class="form-control mb-2" name="city" value="${user.city || ''}" placeholder="City" />
+        <input class="form-control mb-2" name="district" value="${user.district || ''}" placeholder="District" />
+        <input class="form-control mb-2" name="state" value="${user.state || ''}" placeholder="State" />
+        <input class="form-control mb-2" name="address" value="${user.address || ''}" placeholder="Address" />
+        <input class="form-control mb-2" name="type" value="${user.type || ''}" placeholder="Worker Type (if applicable)" />
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>`;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.innerHTML = `
+      <div class="modal-dialog">
+        <div class="modal-content p-3">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit ${user.role}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">${formHtml}</div>
+        </div>
+      </div>`;
+
+    document.body.appendChild(modal);
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+
+    $('#editForm').submit(function(e) {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(this).entries());
+      fetch(`http://localhost:5000/api/users/${user._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...user, ...formData })
+      })
+      .then(() => alert('User updated'))
+      .then(() => {
+        modalInstance.hide();
+        modal.remove();
+        showSection(user.role === 'worker' ? 'viewWorkers' : user.role === 'admin' ? 'viewAdmins' : 'viewCustomers');
+      });
+    });
+  }
+
+  function deleteUser(id) {
+    if (confirm('Are you sure?')) {
+      fetch(`http://localhost:5000/api/users/${id}`, { method: 'DELETE' })
+        .then(() => alert('User deleted'))
+        .then(() => {
+          showSection('viewCustomers');
+        });
+    }
+  }
+</script>
+
+</body>
+</html>

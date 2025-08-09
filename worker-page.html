@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search & Book Workers | KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-800 text-white py-4 shadow">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
+        <h1 class="text-2xl font-bold">
+          <span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span>
+        </h1>
+      </div>
+      <a href="customer-home.html" class="text-sm bg-blue-500 px-3 py-1 rounded hover:bg-blue-600">⬅ Back to Dashboard</a>
+    </div>
+  </header>
+
+  <!-- Filter Section -->
+  <section class="max-w-6xl mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold mb-6 text-gray-800">🔍 Find and Book a Worker</h2>
+    <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-4 mb-6">
+      <select id="type" class="border p-2 rounded">
+        <option value="">Worker Type</option>
+        <option value="mistri">Mistri</option>
+        <option value="painter">Painter</option>
+        <option value="plumber">Plumber</option>
+        <option value="electrician">Electrician</option>
+        <option value="labour">Labour</option>
+        <option value="carpenter">Carpenter</option>
+      </select>
+      <input type="text" id="city" placeholder="City" class="border p-2 rounded" />
+      <select id="rating" class="border p-2 rounded">
+        <option value="">Min Rating</option>
+        <option value="1">⭐ 1+</option>
+        <option value="2">⭐ 2+</option>
+        <option value="3">⭐ 3+</option>
+        <option value="4">⭐ 4+</option>
+      </select>
+      <button onclick="searchWorkers()" class="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700">Search</button>
+    </div>
+
+    <!-- Results -->
+    <div id="workerResults" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Worker cards inserted here -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 py-6">
+    &copy; 2025 KaamKarwalo.in — All rights reserved.
+  </footer>
+
+  <script>
+    // Dummy data — replace with backend API fetch
+    const workers = [
+      { name: "Ravi Kumar", type: "plumber", rating: 4.5, city: "Hajipur", status: "available" },
+      { name: "Amit Yadav", type: "mistri", rating: 4.2, city: "Hajipur", status: "booked" },
+      { name: "Deepak Sharma", type: "electrician", rating: 5.0, city: "Patna", status: "available" },
+      { name: "Sunil Singh", type: "painter", rating: 3.5, city: "Hajipur", status: "available" },
+    ];
+
+    function searchWorkers() {
+      const type = $("#type").val().toLowerCase();
+      const city = $("#city").val().toLowerCase();
+      const rating = parseFloat($("#rating").val() || 0);
+
+      const filtered = workers.filter(w =>
+        (!type || w.type === type) &&
+        (!city || w.city.toLowerCase().includes(city)) &&
+        (w.rating >= rating)
+      );
+
+      const container = $("#workerResults");
+      container.empty();
+
+      if (filtered.length === 0) {
+        container.append(`<p class="text-red-500 col-span-3">No workers found</p>`);
+        return;
+      }
+
+      filtered.forEach(w => {
+        container.append(`
+          <div class="bg-white shadow p-4 rounded text-center">
+            <h3 class="text-lg font-bold mb-1">${w.name}</h3>
+            <p class="capitalize text-sm text-gray-600">Type: ${w.type}</p>
+            <p class="text-yellow-500 font-semibold mb-1">Rating: ${w.rating} ⭐</p>
+            <p class="text-sm text-gray-600">City: ${w.city}</p>
+            <p class="mb-2"><span class="font-semibold">Status:</span> 
+              ${w.status === "available" ? 
+                '<span class="text-green-600">Available</span>' : 
+                '<span class="text-red-600">Booked</span>'}
+            </p>
+            <button ${w.status === "booked" ? "disabled" : ""}
+              class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 disabled:opacity-50"
+              onclick="bookWorker('${w.name}')">
+              ${w.status === "booked" ? "Not Available" : "Book Now"}
+            </button>
+          </div>
+        `);
+      });
+    }
+
+    function bookWorker(name) {
+      alert(`✅ You have successfully reserved ${name}`);
+      // Here: update MongoDB backend with booking logic
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+
+<!-- Updated HTML: Admin Panel with View Admins Option -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - KaamKarwalo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+    .sidebar { height: 100vh; background-color: #1e2a38; color: white; padding-top: 20px; }
+    .sidebar h4 { text-align: center; margin-bottom: 30px; }
+    .sidebar ul { list-style: none; padding-left: 0; }
+    .sidebar ul li { padding: 15px 25px; cursor: pointer; border-left: 4px solid transparent; transition: background-color 0.3s, border-color 0.3s; }
+    .sidebar ul li:hover, .sidebar ul li.active { background-color: #27394d; border-left: 4px solid #0dcaf0; }
+    .section { display: none; background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .section.active { display: block; }
+    h2#adminWelcome { font-weight: 600; color: #1e2a38; }
+    form input, form button { max-width: 500px; }
+    .btn-primary { background-color: #1e2a38; border: none; }
+    .btn-primary:hover { background-color: #0dcaf0; color: #000; }
+    .table-actions button { margin-right: 5px; }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 sidebar">
+      <h4>Admin Panel</h4>
+      <ul>
+        <li onclick="showSection('addCustomer')">Add Customer</li>
+        <li onclick="showSection('addWorker')">Add Worker</li>
+        <li onclick="showSection('addAdmin')">Add Admin</li>
+        <li onclick="showSection('viewCustomers')">View Customers</li>
+        <li onclick="showSection('viewWorkers')">View Workers</li>
+        <li onclick="showSection('viewAdmins')">View Admins</li>
+        <li onclick="showSection('viewBookings')">View Bookings</li>
+        <li onclick="logout()">Logout</li>
+      </ul>
+    </div>
+    <div class="col-md-9 py-4 px-5">
+      <h2 id="adminWelcome">Welcome, Admin</h2>
+      <div id="addCustomer" class="section">
+        <h4>Add Customer</h4>
+        <form id="customerForm">
+          <input class="form-control mb-3" placeholder="Name" name="name" required />
+          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
+          <input class="form-control mb-3" placeholder="City" name="city" />
+          <button type="submit" class="btn btn-primary">Add Customer</button>
+        </form>
+      </div>
+
+      <div id="addWorker" class="section">
+        <h4>Add Worker</h4>
+        <form id="workerForm">
+          <input class="form-control mb-3" placeholder="Name" name="name" required />
+          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
+          <input class="form-control mb-3" placeholder="Worker Type" name="type" required />
+          <input class="form-control mb-3" placeholder="City" name="city" />
+          <button type="submit" class="btn btn-primary">Add Worker</button>
+        </form>
+      </div>
+
+      <div id="addAdmin" class="section">
+        <h4>Add Admin</h4>
+        <form id="adminForm">
+          <input class="form-control mb-3" placeholder="Name" name="name" required />
+          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
+          <input class="form-control mb-3" type="email" placeholder="Email" name="email" />
+          <button type="submit" class="btn btn-primary">Add Admin</button>
+        </form>
+      </div>
+
+      <div id="viewCustomers" class="section">
+        <h4>All Customers</h4>
+        <table class="table table-bordered">
+          <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>Actions</th></tr></thead>
+          <tbody id="customerTable"></tbody>
+        </table>
+      </div>
+
+      <div id="viewWorkers" class="section">
+        <h4>All Workers</h4>
+        <table class="table table-bordered">
+          <thead><tr><th>Name</th><th>Phone</th><th>Type</th><th>City</th><th>Actions</th></tr></thead>
+          <tbody id="workerTable"></tbody>
+        </table>
+      </div>
+
+      <div id="viewAdmins" class="section">
+        <h4>All Admins</h4>
+        <table class="table table-bordered">
+          <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Actions</th></tr></thead>
+          <tbody id="adminTable"></tbody>
+        </table>
+      </div>
+
+      <div id="viewBookings" class="section">
+        <h4>Booking Records</h4>
+        <p>Coming soon: View and manage bookings here.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Redirect to login if not logged in
+  if (!localStorage.getItem('admin')) {
+    window.location.href = 'index2.html';
+  }
+
+  function showSection(id) {
+    $('.section').removeClass('active');
+    $('#' + id).addClass('active');
+    $('.sidebar ul li').removeClass('active');
+    $(`.sidebar ul li:contains(${id.replace(/([A-Z])/g, ' $1').trim()})`).addClass('active');
+    if (id === 'viewCustomers') loadUsers('customer');
+    if (id === 'viewWorkers') loadUsers('worker');
+    if (id === 'viewAdmins') loadUsers('admin');
+  }
+
+  function logout() {
+    localStorage.removeItem('admin');
+    window.location.href = 'index2.html';
+  }
+
+  async function loadUsers(role) {
+    const res = await fetch(`http://localhost:5000/api/users`);
+    const allUsers = await res.json();
+    const filtered = allUsers.filter(u => u.role === role);
+    const tableId = role === 'customer' ? '#customerTable' : role === 'worker' ? '#workerTable' : '#adminTable';
+    const container = $(tableId).empty();
+    filtered.forEach(user => {
+      const userData = encodeURIComponent(JSON.stringify(user));
+      const row = `<tr>
+        <td>${user.name}</td>
+        <td>${user.phone}</td>
+        <td>${role === 'admin' ? user.email : role === 'worker' ? user.type : user.city}</td>
+        <td class="table-actions">
+          <button class="btn btn-sm btn-info" onclick='editUser(decodeURIComponent("${userData}"))'>Edit</button>
+          <button class="btn btn-sm btn-danger" onclick='deleteUser("${user._id}")'>Delete</button>
+        </td>
+      </tr>`;
+      container.append(row);
+    });
+  }
+
+  function editUser(userStr) {
+    const user = JSON.parse(userStr);
+    const formHtml = `
+      <form id="editForm">
+        <input class="form-control mb-2" name="name" value="${user.name}" placeholder="Name" required />
+        <input class="form-control mb-2" name="phone" value="${user.phone}" placeholder="Phone" required />
+        <input class="form-control mb-2" name="email" value="${user.email || ''}" placeholder="Email" />
+        <input class="form-control mb-2" name="city" value="${user.city || ''}" placeholder="City" />
+        <input class="form-control mb-2" name="district" value="${user.district || ''}" placeholder="District" />
+        <input class="form-control mb-2" name="state" value="${user.state || ''}" placeholder="State" />
+        <input class="form-control mb-2" name="address" value="${user.address || ''}" placeholder="Address" />
+        <input class="form-control mb-2" name="type" value="${user.type || ''}" placeholder="Worker Type (if applicable)" />
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>`;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.innerHTML = `
+      <div class="modal-dialog">
+        <div class="modal-content p-3">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit ${user.role}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">${formHtml}</div>
+        </div>
+      </div>`;
+
+    document.body.appendChild(modal);
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+
+    $('#editForm').submit(function(e) {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(this).entries());
+      fetch(`http://localhost:5000/api/users/${user._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...user, ...formData })
+      })
+      .then(() => alert('User updated'))
+      .then(() => {
+        modalInstance.hide();
+        modal.remove();
+        showSection(user.role === 'worker' ? 'viewWorkers' : user.role === 'admin' ? 'viewAdmins' : 'viewCustomers');
+      });
+    });
+  }
+
+  function deleteUser(id) {
+    if (confirm('Are you sure?')) {
+      fetch(`http://localhost:5000/api/users/${id}`, { method: 'DELETE' })
+        .then(() => alert('User deleted'))
+        .then(() => {
+          showSection('viewCustomers');
+        });
+    }
+  }
+</script>
+
+
+</body>
+</html>
