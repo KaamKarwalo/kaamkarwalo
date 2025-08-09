@@ -108,7 +108,7 @@
 
     if (!user || user.role !== "customer") {
       alert("Unauthorized access. Please login first.");
-      window.location.href = "Index2.html";
+      window.location.href = "index.html";
     }
 
     document.getElementById("custName").textContent = user.name || "-";
@@ -126,7 +126,7 @@
     
     function logout() {
       localStorage.removeItem("customer");
-      window.location.href = "Index2.html";
+      window.location.href = "index.html";
     }
   </script>
 </body>

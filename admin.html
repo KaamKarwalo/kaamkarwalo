@@ -112,7 +112,7 @@
 <script>
   // Redirect to login if not logged in
   if (!localStorage.getItem('admin')) {
-    window.location.href = 'index2.html';
+    window.location.href = 'index.html';
   }
 
   function showSection(id) {
@@ -127,7 +127,7 @@
 
   function logout() {
     localStorage.removeItem('admin');
-    window.location.href = 'index2.html';
+    window.location.href = 'index.html';
   }
 
   async function loadUsers(role) {
