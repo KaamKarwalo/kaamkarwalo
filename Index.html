@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,17 +23,18 @@
   <!-- Header -->
   <header class="bg-gray-800 text-white py-4">
     <div class="container mx-auto flex justify-between items-center px-4">
-      <div class="flex items-center space-x-3">
+      <div id="logoClick" class="flex items-center space-x-3 cursor-pointer">
         <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
         <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
       </div>
-      <nav class="hidden md:flex space-x-6">
-        <a href="#customer-panel" class="hover:underline">Customer</a>
-        <a href="#worker-panel" class="hover:underline">Worker</a>
-        <a href="admin.html" class="hover:underline">Admin</a>
+
+      <nav id="navMenu" class="hidden flex-col md:flex md:flex-row space-y-3 md:space-y-0 md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-gray-800 md:bg-transparent p-4 md:p-0 z-50">
+
         <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded">Login</button>
         <button id="registerBtn" class="bg-gray-600 hover:bg-gray-700 px-4 py-1 rounded">Register</button>
+        <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 px-4 py-1 rounded hidden">Logout</button>
       </nav>
+      <button id="menuToggle" class="md:hidden text-white"><i class="fas fa-bars"></i></button>
     </div>
   </header>
 
@@ -164,73 +167,51 @@
     </div>
   </div>
 
-<!-- Register Modal -->
-<div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-  <div class="bg-white p-6 rounded shadow-md w-96 relative">
-    <button class="absolute top-2 right-2 text-gray-500 hover:text-black" onclick="$('#registerModal').addClass('hidden')"><i class="fas fa-times"></i></button>
-    <h2 class="text-xl font-semibold mb-4">Register</h2>
+  <!-- Register Modal -->
+  <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded shadow-md w-96 relative">
+      <button class="absolute top-2 right-2 text-gray-500 hover:text-black" onclick="$('#registerModal').addClass('hidden')"><i class="fas fa-times"></i></button>
+      <h2 class="text-xl font-semibold mb-4">Register</h2>
 
-    <select id="userRole" class="w-full border px-3 py-2 mb-3 rounded">
-      <option value="">Select Role</option>
-      <option value="customer">Customer</option>
-      <option value="worker">Worker</option>
-    </select>
+      <select id="userRole" class="w-full border px-3 py-2 mb-3 rounded">
+        <option value="">Select Role</option>
+        <option value="customer">Customer</option>
+        <option value="worker">Worker</option>
+      </select>
 
-    <input type="text" placeholder="User ID" id="uniqueId" class="w-full border px-3 py-2 mb-3 rounded bg-gray-100 text-gray-500" readonly />
+      <input type="text" placeholder="User ID" id="uniqueId" class="w-full border px-3 py-2 mb-3 rounded bg-gray-100 text-gray-500" readonly />
+      <input type="text" id="regName" placeholder="Name *" class="w-full border px-3 py-2 mb-3 rounded" required />
+      <input type="email" placeholder="Email (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
+      <input type="tel" id="regPhone" placeholder="Mobile Number *" class="w-full border px-3 py-2 mb-3 rounded" required />
 
-    <input type="text" id="regName" placeholder="Name *" class="w-full border px-3 py-2 mb-3 rounded" required />
-    <input type="email" placeholder="Email (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="tel" id="regPhone" placeholder="Mobile Number *" class="w-full border px-3 py-2 mb-3 rounded" required />
-    
-    <select id="workerType" class="w-full border px-3 py-2 mb-3 rounded hidden">
-      <option value="">Select Worker Type</option>
-      <option value="labour">Labour</option>
-      <option value="mistri">Mistri</option>
-      <option value="carpenter">Carpenter</option>
-      <option value="painter">Painter</option>
-      <option value="builder">Builder</option>
-      <option value="plumber">Plumber</option>
-      <option value="electrician">Electrician</option>
-    </select>
-    <input type="text" id="regAddress" placeholder="Full Address" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="text" id="regState" placeholder="State *" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="text" id="regCity" placeholder="City *" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="text" id="regDistrict" placeholder="District *" class="w-full border px-3 py-2 mb-3 rounded" />
-    <input type="text" id="regLocation" placeholder="Google Map Link (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
-    <button type="button" onclick="getCurrentLocation()" class="bg-blue-500 text-white py-1 px-3 rounded mb-3 hover:bg-blue-600 text-sm">
-  Use Current Location
-</button>
+      <select id="workerType" class="w-full border px-3 py-2 mb-3 rounded hidden">
+        <option value="">Select Worker Type</option>
+        <option value="labour">Labour</option>
+        <option value="mistri">Mistri</option>
+        <option value="carpenter">Carpenter</option>
+        <option value="painter">Painter</option>
+        <option value="builder">Builder</option>
+        <option value="plumber">Plumber</option>
+        <option value="electrician">Electrician</option>
+      </select>
 
-    <input type="password" placeholder="Password" class="w-full border px-3 py-2 mb-3 rounded" />
-    <button id="submitRegister" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Register</button>
+      <input type="text" id="regAddress" placeholder="Full Address" class="w-full border px-3 py-2 mb-3 rounded" />
+      <input type="text" id="regState" placeholder="State *" class="w-full border px-3 py-2 mb-3 rounded" />
+      <input type="text" id="regCity" placeholder="City *" class="w-full border px-3 py-2 mb-3 rounded" />
+      <input type="text" id="regDistrict" placeholder="District *" class="w-full border px-3 py-2 mb-3 rounded" />
+      <input type="text" id="regLocation" placeholder="Google Map Link (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
+      <button type="button" onclick="getCurrentLocation()" class="bg-blue-500 text-white py-1 px-3 rounded mb-3 hover:bg-blue-600 text-sm">Use Current Location</button>
+
+      <input type="password" placeholder="Password" class="w-full border px-3 py-2 mb-3 rounded" />
+      <button id="submitRegister" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Register</button>
+    </div>
   </div>
-</div>
-
-
 
 <script>
   function generateUniqueId() {
     return 'UID-' + Math.random().toString(36).substring(2, 10).toUpperCase();
   }
 
-  $(document).ready(function () {
-    $('#registerBtn').click(() => {
-      $('#uniqueId').val(generateUniqueId());
-      $('#registerModal').removeClass('hidden').addClass('flex');
-    });
-
-    $('#userRole').change(function () {
-      const selected = $(this).val();
-      if (selected === 'worker') {
-        $('#workerType').removeClass('hidden');
-      } else {
-        $('#workerType').addClass('hidden');
-      }
-    });
-  });
-</script>
-
-<script>
   async function registerUser() {
     const userId = $('#uniqueId').val().trim();
     const role = $('#userRole').val().trim();
@@ -245,9 +226,6 @@
     const address = $('#regAddress').val().trim();
     const location = $('#regLocation').val().trim();
 
-
-
-
     if (!userId || !role || !name || !phone || !password || !city || !district || !state) {
       alert('Please fill all required fields');
       return;
@@ -256,36 +234,17 @@
       alert('Please select a worker type');
       return;
     }
-  
 
-
-
-    const data = {
-  userId,
-  role,
-  name,
-  email,
-  phone,
-  password,
-  workerType,
-  city,
-  district,
-  state,
-  address,
-  location
-};
+    const data = { userId, role, name, email, phone, password, workerType, city, district, state, address, location };
 
     try {
       const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
 
       const result = await res.json();
-
       if (res.ok) {
         alert(result.message || 'Registered!');
         $('#registerModal').addClass('hidden');
@@ -294,127 +253,121 @@
         alert(result.error || 'Registration failed.');
       }
     } catch (err) {
-      console.error('Fetch error:', err);
       alert('Server error');
     }
   }
 
-  $(document).ready(() => {
-    $('#registerBtn').click(() => {
-      $('#uniqueId').val(generateUniqueId());
-      $('#registerModal').removeClass('hidden').addClass('flex');
-    });
+  async function loginUser() {
+    const phone = $('#loginModal input[type="text"]').val();
+    const password = $('#loginModal input[type="password"]').val();
 
-    $('#userRole').change(() => {
-      const selected = $('#userRole').val();
-      $('#workerType').toggleClass('hidden', selected !== 'worker');
-    });
-
-    $('#submitRegister').click(registerUser);
-  });
-</script>
-<script>
-  // Login functionality
-async function loginUser() {
-  const phone = $('#loginModal input[type="text"]').val();
-  const password = $('#loginModal input[type="password"]').val();
-
-  if (!phone || !password) {
-    alert('Enter phone and password');
-    return;
-  }
-
-  try {
-    const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, password })
-    });
-
-    const result = await res.json();
-/*
-    if (res.ok) {
-      localStorage.setItem("customer", JSON.stringify(result.user));
-      window.location.href = "customer-home.html";
-      // Optionally: save to localStorage, redirect, etc.
-    } else {
-      alert(result.error);
+    if (!phone || !password) {
+      alert('Enter phone and password');
+      return;
     }
-*/ 
-    if (res.ok) {
-      const user = result.user;
-      if (user.role === "admin") {
-        localStorage.setItem("admin", JSON.stringify(user));
-        window.location.href = "admin.html";  // or admin-dashboard.html if different
-      } else if (user.role === "customer") {
-        localStorage.setItem("customer", JSON.stringify(user));
-        window.location.href = "customer-home.html";
-      } else if (user.role === "worker") {
-        localStorage.setItem("worker", JSON.stringify(user));
-        window.location.href = "worker-home.html";
+
+    try {
+      const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, password })
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        const user = result.user;
+        if (user.role === "admin") {
+          localStorage.setItem("admin", JSON.stringify(user));
+          window.location.href = "admin.html";
+        } else if (user.role === "customer") {
+          localStorage.setItem("customer", JSON.stringify(user));
+          window.location.href = "customer-home.html";
+        } else if (user.role === "worker") {
+          localStorage.setItem("worker", JSON.stringify(user));
+          window.location.href = "worker-page.html";
+        }
       } else {
-        alert("Unknown user role.");
+        alert(result.error || 'Login failed');
       }
+    } catch (err) {
+      alert('Server error');
     }
-
-
-
-  } catch (err) {
-    console.error(err);
-    alert('Server error');
   }
-}
 
-$('.bg-blue-600').click(loginUser); // Login button
-
-
+  // Mobile menu toggle
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("navMenu").classList.toggle("hidden");
+  });
 
   $(document).ready(function () {
-    $('#registerBtn').click(() => {
-      $('#uniqueId').val(generateUniqueId());
-      $('#registerModal').removeClass('hidden').addClass('flex');
+    const loginBtn = $('#loginBtn');
+    const registerBtn = $('#registerBtn');
+    const logoutBtn = $('#logoutBtn');
+
+    // Role-based display
+    if (localStorage.getItem('admin')) {
+      loginBtn.text('Go to Admin Panel').off('click').on('click', () => {
+        window.location.href = 'admin.html';
+      });
+      registerBtn.hide();
+      logoutBtn.show();
+    } 
+    else if (localStorage.getItem('customer')) {
+      loginBtn.text('Go to Customer Page').off('click').on('click', () => {
+        window.location.href = 'customer-home.html';
+      });
+      registerBtn.hide();
+      logoutBtn.show();
+    } 
+    else if (localStorage.getItem('worker')) {
+      loginBtn.text('Go to Worker Page').off('click').on('click', () => {
+        window.location.href = 'worker-page.html';
+      });
+      registerBtn.hide();
+      logoutBtn.show();
+    } 
+    else {
+      loginBtn.text('Login').off('click').on('click', () => {
+        $('#loginModal').removeClass('hidden').addClass('flex');
+      });
+      registerBtn.show().off('click').on('click', () => {
+        $('#registerModal').removeClass('hidden').addClass('flex');
+      });
+      logoutBtn.hide();
+    }
+
+    // Logout function
+    logoutBtn.off('click').on('click', () => {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    });
+
+    // Logo click → redirect based on role
+    $('#logoClick').on('click', () => {
+      if (localStorage.getItem('admin')) {
+        window.location.href = 'admin.html';
+      } else if (localStorage.getItem('customer')) {
+        window.location.href = 'customer-home.html';
+      } else if (localStorage.getItem('worker')) {
+        window.location.href = 'worker-page.html';
+      } else {
+        window.location.href = 'index.html';
+      }
     });
 
     $('#userRole').change(function () {
-      const selected = $(this).val();
-      $('#workerType').toggleClass('hidden', selected !== 'worker');
+      const role = $(this).val();
+      $('#uniqueId').val(generateUniqueId());
+      if (role === 'worker') {
+        $('#workerType').removeClass('hidden');
+      } else {
+        $('#workerType').addClass('hidden');
+      }
     });
 
-    $('.bg-green-600').click(registerUser); // Register button
+    $('#submitRegister').click(registerUser);
+    $('#loginModal button.w-full').click(loginUser);
   });
 </script>
-
-
-
-  <script>
-    $(document).ready(function () {
-      $('#loginBtn').click(() => $('#loginModal').removeClass('hidden').addClass('flex'));
-      $('#registerBtn').click(() => $('#registerModal').removeClass('hidden').addClass('flex'));
-    });
-  </script>
-  <script>
-  function getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
-          $('#regLocation').val(mapLink);
-          alert("📍 Location fetched and set!");
-        },
-        (error) => {
-          alert("Unable to fetch location: " + error.message);
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-</script>
-
-
- 
-
 </body>
 </html>

@@ -1,5 +1,5 @@
 
-<!-- Updated HTML: Admin Panel with View Admins Option -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,206 +11,275 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
-    .sidebar { height: 100vh; background-color: #1e2a38; color: white; padding-top: 20px; }
+    .sidebar { height: 100vh; background-color: #1e2a38; color: white; padding-top: 20px; position: fixed; top: 0; left: 0; width: 250px; z-index: 1050; }
     .sidebar h4 { text-align: center; margin-bottom: 30px; }
     .sidebar ul { list-style: none; padding-left: 0; }
     .sidebar ul li { padding: 15px 25px; cursor: pointer; border-left: 4px solid transparent; transition: background-color 0.3s, border-color 0.3s; }
     .sidebar ul li:hover, .sidebar ul li.active { background-color: #27394d; border-left: 4px solid #0dcaf0; }
     .section { display: none; background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .section.active { display: block; }
-    h2#adminWelcome { font-weight: 600; color: #1e2a38; }
-    form input, form button { max-width: 500px; }
-    .btn-primary { background-color: #1e2a38; border: none; }
-    .btn-primary:hover { background-color: #0dcaf0; color: #000; }
-    .table-actions button { margin-right: 5px; }
+    .toggle-btn { display: none; background: #1e2a38; color: white; border: none; padding: 10px 15px; font-size: 18px; position: fixed; top: 10px; left: 10px; z-index: 1100; border-radius: 5px; }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .sidebar.show { transform: translateX(0); }
+      .toggle-btn { display: block; }
+      .main-content { margin-left: 0; padding-top: 50px; }
+    }
+    @media (min-width: 769px) {
+      .main-content { margin-left: 250px; }
+    }
   </style>
 </head>
 <body>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3 sidebar">
-      <h4>Admin Panel</h4>
-      <ul>
-        <li onclick="showSection('addCustomer')">Add Customer</li>
-        <li onclick="showSection('addWorker')">Add Worker</li>
-        <li onclick="showSection('addAdmin')">Add Admin</li>
-        <li onclick="showSection('viewCustomers')">View Customers</li>
-        <li onclick="showSection('viewWorkers')">View Workers</li>
-        <li onclick="showSection('viewAdmins')">View Admins</li>
-        <li onclick="showSection('viewBookings')">View Bookings</li>
-        <li onclick="logout()">Logout</li>
-      </ul>
-    </div>
-    <div class="col-md-9 py-4 px-5">
-      <h2 id="adminWelcome">Welcome, Admin</h2>
-      <div id="addCustomer" class="section">
-        <h4>Add Customer</h4>
-        <form id="customerForm">
-          <input class="form-control mb-3" placeholder="Name" name="name" required />
-          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
-          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
-          <input class="form-control mb-3" placeholder="City" name="city" />
-          <button type="submit" class="btn btn-primary">Add Customer</button>
-        </form>
-      </div>
+<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-      <div id="addWorker" class="section">
-        <h4>Add Worker</h4>
-        <form id="workerForm">
-          <input class="form-control mb-3" placeholder="Name" name="name" required />
-          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
-          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
-          <input class="form-control mb-3" placeholder="Worker Type" name="type" required />
-          <input class="form-control mb-3" placeholder="City" name="city" />
-          <button type="submit" class="btn btn-primary">Add Worker</button>
-        </form>
-      </div>
+<div class="sidebar" id="sidebar">
+  <h4>Admin Panel</h4>
+  <ul>
+    <li onclick="showSection('addCustomer')">Add Customer</li>
+    <li onclick="showSection('addWorker')">Add Worker</li>
+    <li onclick="showSection('addAdmin')">Add Admin</li>
+    <li onclick="showSection('viewCustomers')">View Customers</li>
+    <li onclick="showSection('viewWorkers')">View Workers</li>
+    <li onclick="showSection('viewAdmins')">View Admins</li>
+    <li onclick="logout()">Logout</li>
+  </ul>
+</div>
 
-      <div id="addAdmin" class="section">
-        <h4>Add Admin</h4>
-        <form id="adminForm">
-          <input class="form-control mb-3" placeholder="Name" name="name" required />
-          <input class="form-control mb-3" placeholder="Phone" name="phone" required />
-          <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
-          <input class="form-control mb-3" type="email" placeholder="Email" name="email" />
-          <button type="submit" class="btn btn-primary">Add Admin</button>
-        </form>
-      </div>
+<div class="container-fluid main-content py-4 px-3">
+  <h2 id="adminWelcome">Welcome, Admin</h2>
 
-      <div id="viewCustomers" class="section">
-        <h4>All Customers</h4>
-        <table class="table table-bordered">
-          <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>Actions</th></tr></thead>
-          <tbody id="customerTable"></tbody>
-        </table>
-      </div>
+  <!-- Add Customer -->
+  <div id="addCustomer" class="section">
+    <h4>Add Customer</h4>
+    <form id="customerForm">
+      <input class="form-control mb-3" placeholder="Name" name="name" required />
+      <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+      <input class="form-control mb-3" placeholder="Email" name="email" />
+      <input class="form-control mb-3" placeholder="Address" name="address" />
+      <input class="form-control mb-3" placeholder="City" name="city" />
+      <input class="form-control mb-3" placeholder="District" name="district" />
+      <input class="form-control mb-3" placeholder="State" name="state" />
+      <input class="form-control mb-3" placeholder="Google Map Link" name="location" />
+      <button type="submit" class="btn btn-primary">Add Customer</button>
+    </form>
+  </div>
 
-      <div id="viewWorkers" class="section">
-        <h4>All Workers</h4>
-        <table class="table table-bordered">
-          <thead><tr><th>Name</th><th>Phone</th><th>Type</th><th>City</th><th>Actions</th></tr></thead>
-          <tbody id="workerTable"></tbody>
-        </table>
-      </div>
+  <!-- Add Worker -->
+  <div id="addWorker" class="section">
+    <h4>Add Worker</h4>
+    <form id="workerForm">
+      <input class="form-control mb-3" placeholder="Name" name="name" required />
+      <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+      <input class="form-control mb-3" placeholder="Email" name="email" />
+      <select class="form-control mb-3" name="workerType" required>
+        <option value="">Select Worker Type</option>
+        <option value="labour">Labour</option>
+        <option value="mistri">Mistri</option>
+        <option value="carpenter">Carpenter</option>
+        <option value="painter">Painter</option>
+        <option value="builder">Builder</option>
+        <option value="plumber">Plumber</option>
+        <option value="electrician">Electrician</option>
+      </select>
+      <input class="form-control mb-3" placeholder="Address" name="address" />
+      <input class="form-control mb-3" placeholder="City" name="city" />
+      <input class="form-control mb-3" placeholder="District" name="district" />
+      <input class="form-control mb-3" placeholder="State" name="state" />
+      <input class="form-control mb-3" placeholder="Google Map Link" name="location" />
+      <button type="submit" class="btn btn-primary">Add Worker</button>
+    </form>
+  </div>
 
-      <div id="viewAdmins" class="section">
-        <h4>All Admins</h4>
-        <table class="table table-bordered">
-          <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Actions</th></tr></thead>
-          <tbody id="adminTable"></tbody>
-        </table>
-      </div>
+  <!-- Add Admin -->
+  <div id="addAdmin" class="section">
+    <h4>Add Admin</h4>
+    <form id="adminForm">
+      <input class="form-control mb-3" placeholder="Name" name="name" required />
+      <input class="form-control mb-3" placeholder="Phone" name="phone" required />
+      <input class="form-control mb-3" type="password" placeholder="Password" name="password" required />
+      <input class="form-control mb-3" placeholder="Email" name="email" />
+      <button type="submit" class="btn btn-primary">Add Admin</button>
+    </form>
+  </div>
 
-      <div id="viewBookings" class="section">
-        <h4>Booking Records</h4>
-        <p>Coming soon: View and manage bookings here.</p>
-      </div>
-    </div>
+  <!-- View Customers -->
+  <div id="viewCustomers" class="section">
+    <h4>All Customers</h4>
+    <table class="table table-bordered">
+      <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>Actions</th></tr></thead>
+      <tbody id="customerTable"></tbody>
+    </table>
+  </div>
+
+  <!-- View Workers -->
+  <div id="viewWorkers" class="section">
+    <h4>All Workers</h4>
+    <table class="table table-bordered">
+      <thead><tr><th>Name</th><th>Phone</th><th>Type</th><th>City</th><th>Actions</th></tr></thead>
+      <tbody id="workerTable"></tbody>
+    </table>
+  </div>
+
+  <!-- View Admins -->
+  <div id="viewAdmins" class="section">
+    <h4>All Admins</h4>
+    <table class="table table-bordered">
+      <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Actions</th></tr></thead>
+      <tbody id="adminTable"></tbody>
+    </table>
   </div>
 </div>
 
 <script>
-  // Redirect to login if not logged in
-  if (!localStorage.getItem('admin')) {
-    window.location.href = 'index.html';
-  }
+if (!localStorage.getItem('admin')) {
+  window.location.href = 'index.html';
+}
 
-  function showSection(id) {
-    $('.section').removeClass('active');
-    $('#' + id).addClass('active');
-    $('.sidebar ul li').removeClass('active');
-    $(`.sidebar ul li:contains(${id.replace(/([A-Z])/g, ' $1').trim()})`).addClass('active');
-    if (id === 'viewCustomers') loadUsers('customer');
-    if (id === 'viewWorkers') loadUsers('worker');
-    if (id === 'viewAdmins') loadUsers('admin');
-  }
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('show');
+}
 
-  function logout() {
-    localStorage.removeItem('admin');
-    window.location.href = 'index.html';
-  }
+function showSection(id) {
+  $('.section').removeClass('active');
+  $('#' + id).addClass('active');
+  if (id === 'viewCustomers') loadUsers('customer');
+  if (id === 'viewWorkers') loadUsers('worker');
+  if (id === 'viewAdmins') loadUsers('admin');
+  if (window.innerWidth <= 768) toggleSidebar();
+}
 
-  async function loadUsers(role) {
-    const res = await fetch(`http://localhost:5000/api/users`);
-    const allUsers = await res.json();
-    const filtered = allUsers.filter(u => u.role === role);
-    const tableId = role === 'customer' ? '#customerTable' : role === 'worker' ? '#workerTable' : '#adminTable';
-    const container = $(tableId).empty();
-    filtered.forEach(user => {
-      const userData = encodeURIComponent(JSON.stringify(user));
-      const row = `<tr>
+function logout() {
+  localStorage.removeItem('admin');
+  window.location.href = 'index.html';
+}
+
+async function loadUsers(role) {
+  const res = await fetch(`https://kaamkarwalo-backend.onrender.com/api/users`);
+  const allUsers = await res.json();
+  const filtered = allUsers.filter(u => u.role === role);
+  const tableId = role === 'customer' ? '#customerTable' : role === 'worker' ? '#workerTable' : '#adminTable';
+  const container = $(tableId).empty();
+  filtered.forEach(user => {
+    const userData = encodeURIComponent(JSON.stringify(user));
+    container.append(`
+      <tr>
         <td>${user.name}</td>
         <td>${user.phone}</td>
-        <td>${role === 'admin' ? user.email : role === 'worker' ? user.type : user.city}</td>
-        <td class="table-actions">
+        <td>${role === 'admin' ? user.email : role === 'worker' ? user.workerType : user.city}</td>
+        <td>
           <button class="btn btn-sm btn-info" onclick='editUser(decodeURIComponent("${userData}"))'>Edit</button>
           <button class="btn btn-sm btn-danger" onclick='deleteUser("${user._id}")'>Delete</button>
         </td>
-      </tr>`;
-      container.append(row);
+      </tr>
+    `);
+  });
+}
+
+// Add forms - default password for customer/worker
+$('#customerForm').submit(async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.role = 'customer';
+  data.password = 'Password';
+  await fetch(`https://kaamkarwalo-backend.onrender.com/api/register`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  alert('Customer added with default password: Password');
+  showSection('viewCustomers');
+});
+
+$('#workerForm').submit(async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.role = 'worker';
+  data.password = 'Password';
+  await fetch(`https://kaamkarwalo-backend.onrender.com/api/register`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  alert('Worker added with default password: Password');
+  showSection('viewWorkers');
+});
+
+$('#adminForm').submit(async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.role = 'admin';
+  await fetch(`https://kaamkarwalo-backend.onrender.com/api/register`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  alert('Admin added');
+  showSection('viewAdmins');
+});
+
+// Edit modal with value/placeholder logic
+function editUser(userStr) {
+  const user = JSON.parse(userStr);
+  const field = (label, name, value) => 
+    value ? `<input class="form-control mb-2" name="${name}" value="${value}" />` 
+          : `<input class="form-control mb-2" name="${name}" placeholder="${label}" />`;
+
+  const formHtml = `
+    <form id="editForm">
+      ${field('Name', 'name', user.name)}
+      ${field('Phone', 'phone', user.phone)}
+      ${field('Email', 'email', user.email)}
+      ${field('City', 'city', user.city)}
+      ${field('District', 'district', user.district)}
+      ${field('State', 'state', user.state)}
+      ${field('Address', 'address', user.address)}
+      ${user.role === 'worker' ? field('Worker Type', 'workerType', user.workerType) : ''}
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>`;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal fade';
+  modal.innerHTML = `<div class="modal-dialog"><div class="modal-content p-3">
+    <div class="modal-header">
+      <h5 class="modal-title">Edit ${user.role}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">${formHtml}</div>
+  </div></div>`;
+
+  document.body.appendChild(modal);
+  const modalInstance = new bootstrap.Modal(modal);
+  modalInstance.show();
+
+  $('#editForm').submit(function(e) {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(this).entries());
+    Object.keys(formData).forEach(key => {
+      if (!formData[key]) formData[key] = user[key] || '';
     });
-  }
 
-  function editUser(userStr) {
-    const user = JSON.parse(userStr);
-    const formHtml = `
-      <form id="editForm">
-        <input class="form-control mb-2" name="name" value="${user.name}" placeholder="Name" required />
-        <input class="form-control mb-2" name="phone" value="${user.phone}" placeholder="Phone" required />
-        <input class="form-control mb-2" name="email" value="${user.email || ''}" placeholder="Email" />
-        <input class="form-control mb-2" name="city" value="${user.city || ''}" placeholder="City" />
-        <input class="form-control mb-2" name="district" value="${user.district || ''}" placeholder="District" />
-        <input class="form-control mb-2" name="state" value="${user.state || ''}" placeholder="State" />
-        <input class="form-control mb-2" name="address" value="${user.address || ''}" placeholder="Address" />
-        <input class="form-control mb-2" name="type" value="${user.type || ''}" placeholder="Worker Type (if applicable)" />
-        <button type="submit" class="btn btn-primary">Update</button>
-      </form>`;
+    fetch(`https://kaamkarwalo-backend.onrender.com/api/users/${user._id}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...user, ...formData })
+    }).then(() => {
+      alert('User updated');
+      modalInstance.hide();
+      modal.remove();
+      showSection(user.role === 'worker' ? 'viewWorkers' : user.role === 'admin' ? 'viewAdmins' : 'viewCustomers');
+    });
+  });
+}
 
-    const modal = document.createElement('div');
-    modal.className = 'modal fade';
-    modal.innerHTML = `
-      <div class="modal-dialog">
-        <div class="modal-content p-3">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit ${user.role}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">${formHtml}</div>
-        </div>
-      </div>`;
-
-    document.body.appendChild(modal);
-    const modalInstance = new bootstrap.Modal(modal);
-    modalInstance.show();
-
-    $('#editForm').submit(function(e) {
-      e.preventDefault();
-      const formData = Object.fromEntries(new FormData(this).entries());
-      fetch(`http://localhost:5000/api/users/${user._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...user, ...formData })
-      })
-      .then(() => alert('User updated'))
+function deleteUser(id) {
+  if (confirm('Are you sure?')) {
+    fetch(`https://kaamkarwalo-backend.onrender.com/api/users/${id}`, { method: 'DELETE' })
       .then(() => {
-        modalInstance.hide();
-        modal.remove();
-        showSection(user.role === 'worker' ? 'viewWorkers' : user.role === 'admin' ? 'viewAdmins' : 'viewCustomers');
+        alert('User deleted');
+        showSection('viewCustomers');
       });
-    });
   }
+}
 
-  function deleteUser(id) {
-    if (confirm('Are you sure?')) {
-      fetch(`http://localhost:5000/api/users/${id}`, { method: 'DELETE' })
-        .then(() => alert('User deleted'))
-        .then(() => {
-          showSection('viewCustomers');
-        });
-    }
-  }
+// Default load
+window.onload = () => showSection('viewCustomers');
 </script>
-
-
 </body>
 </html>
