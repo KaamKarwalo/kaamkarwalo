@@ -4,114 +4,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Search & Book Workers | KaamKarwalo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Worker Dashboard - KaamKarwalo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+    .sidebar { height: 100vh; background-color: #1e2a38; color: white; padding-top: 20px; position: fixed; top: 0; left: 0; width: 250px; z-index: 1050; }
+    .sidebar h4 { text-align: center; margin-bottom: 30px; }
+    .sidebar ul { list-style: none; padding-left: 0; }
+    .sidebar ul li { padding: 15px 25px; cursor: pointer; border-left: 4px solid transparent; transition: background-color 0.3s, border-color 0.3s; }
+    .sidebar ul li:hover, .sidebar ul li.active { background-color: #27394d; border-left: 4px solid #0dcaf0; }
+    .section { display: none; background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .section.active { display: block; }
+    .toggle-btn { display: none; background: #1e2a38; color: white; border: none; padding: 10px 15px; font-size: 18px; position: fixed; top: 10px; left: 10px; z-index: 1100; border-radius: 5px; }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .sidebar.show { transform: translateX(0); }
+      .toggle-btn { display: block; }
+      .main-content { margin-left: 0; padding-top: 50px; }
+    }
+    @media (min-width: 769px) {
+      .main-content { margin-left: 250px; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body>
+<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-  <!-- Header -->
-  <header class="bg-gray-800 text-white py-4 shadow">
-    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
-        <h1 class="text-2xl font-bold">
-          <span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span>
-        </h1>
-      </div>
-      <a href="customer-home.html" class="text-sm bg-blue-500 px-3 py-1 rounded hover:bg-blue-600">⬅ Back to Dashboard</a>
-    </div>
-  </header>
+<div class="sidebar" id="sidebar">
+  <h4>Worker Panel</h4>
+  <ul>
+    <li onclick="showSection('editProfile')">Edit Profile</li>
+    <li onclick="showSection('newBookings')">New Bookings</li>
+    <li onclick="showSection('pastBookings')">Past Bookings</li>
+    <li onclick="goHome()">🏠 Go to Home Page</li>
+    <li onclick="logout()">Logout</li>
+  </ul>
+</div>
 
-  <!-- Filter Section -->
-  <section class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold mb-6 text-gray-800">🔍 Find and Book a Worker</h2>
-    <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-4 mb-6">
-      <select id="type" class="border p-2 rounded">
-        <option value="">Worker Type</option>
-        <option value="mistri">Mistri</option>
-        <option value="painter">Painter</option>
-        <option value="plumber">Plumber</option>
-        <option value="electrician">Electrician</option>
-        <option value="labour">Labour</option>
-        <option value="carpenter">Carpenter</option>
-      </select>
-      <input type="text" id="city" placeholder="City" class="border p-2 rounded" />
-      <select id="rating" class="border p-2 rounded">
-        <option value="">Min Rating</option>
-        <option value="1">⭐ 1+</option>
-        <option value="2">⭐ 2+</option>
-        <option value="3">⭐ 3+</option>
-        <option value="4">⭐ 4+</option>
-      </select>
-      <button onclick="searchWorkers()" class="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700">Search</button>
-    </div>
+<div class="container-fluid main-content py-4 px-3">
+  <h2 id="workerWelcome">Welcome, Worker</h2>
 
-    <!-- Results -->
-    <div id="workerResults" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Worker cards inserted here -->
-    </div>
-  </section>
+  <!-- Edit Profile -->
+  <div id="editProfile" class="section">
+    <h4>Edit Profile</h4>
+    <form id="profileForm"></form>
+  </div>
 
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 py-6">
-    &copy; 2025 KaamKarwalo.in — All rights reserved.
-  </footer>
+  <!-- New Bookings -->
+  <div id="newBookings" class="section">
+    <h4>New Bookings Assigned</h4>
+    <p class="text-muted">Bookings will be displayed here.</p>
+    <table class="table table-bordered">
+      <thead><tr><th>Customer</th><th>Service</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-  <script>
-    // Dummy data — replace with backend API fetch
-    const workers = [
-      { name: "Ravi Kumar", type: "plumber", rating: 4.5, city: "Hajipur", status: "available" },
-      { name: "Amit Yadav", type: "mistri", rating: 4.2, city: "Hajipur", status: "booked" },
-      { name: "Deepak Sharma", type: "electrician", rating: 5.0, city: "Patna", status: "available" },
-      { name: "Sunil Singh", type: "painter", rating: 3.5, city: "Hajipur", status: "available" },
-    ];
+  <!-- Past Bookings -->
+  <div id="pastBookings" class="section">
+    <h4>Past Booking History</h4>
+    <p class="text-muted">Past bookings will be displayed here.</p>
+    <table class="table table-bordered">
+      <thead><tr><th>Customer</th><th>Service</th><th>Date</th><th>Payment</th><th>Rating</th><th>Feedback</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
 
-    function searchWorkers() {
-      const type = $("#type").val().toLowerCase();
-      const city = $("#city").val().toLowerCase();
-      const rating = parseFloat($("#rating").val() || 0);
+<script>
+if (!localStorage.getItem('worker')) {
+  window.location.href = 'index.html';
+}
 
-      const filtered = workers.filter(w =>
-        (!type || w.type === type) &&
-        (!city || w.city.toLowerCase().includes(city)) &&
-        (w.rating >= rating)
-      );
+const worker = JSON.parse(localStorage.getItem('worker'));
 
-      const container = $("#workerResults");
-      container.empty();
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('show');
+}
 
-      if (filtered.length === 0) {
-        container.append(`<p class="text-red-500 col-span-3">No workers found</p>`);
-        return;
-      }
+function showSection(id) {
+  $('.section').removeClass('active');
+  $('#' + id).addClass('active');
+  if (id === 'editProfile') loadProfile();
+  if (window.innerWidth <= 768) toggleSidebar();
+}
 
-      filtered.forEach(w => {
-        container.append(`
-          <div class="bg-white shadow p-4 rounded text-center">
-            <h3 class="text-lg font-bold mb-1">${w.name}</h3>
-            <p class="capitalize text-sm text-gray-600">Type: ${w.type}</p>
-            <p class="text-yellow-500 font-semibold mb-1">Rating: ${w.rating} ⭐</p>
-            <p class="text-sm text-gray-600">City: ${w.city}</p>
-            <p class="mb-2"><span class="font-semibold">Status:</span> 
-              ${w.status === "available" ? 
-                '<span class="text-green-600">Available</span>' : 
-                '<span class="text-red-600">Booked</span>'}
-            </p>
-            <button ${w.status === "booked" ? "disabled" : ""}
-              class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 disabled:opacity-50"
-              onclick="bookWorker('${w.name}')">
-              ${w.status === "booked" ? "Not Available" : "Book Now"}
-            </button>
-          </div>
-        `);
-      });
-    }
+function goHome() { window.location.href = 'index.html'; }
+function logout() { localStorage.removeItem('worker'); window.location.href = 'index.html'; }
 
-    function bookWorker(name) {
-      alert(`✅ You have successfully reserved ${name}`);
-      // Here: update MongoDB backend with booking logic
-    }
-  </script>
+// Load profile data
+async function loadProfile() {
+  const res = await fetch(`https://kaamkarwalo-backend.onrender.com/api/users/${worker._id}`);
+  const data = await res.json();
+  $('#profileForm').html(`
+    <input class="form-control mb-2" name="name" value="${data.name}" placeholder="Name" />
+    <input class="form-control mb-2" name="phone" value="${data.phone}" placeholder="Phone" />
+    <input class="form-control mb-2" name="email" value="${data.email || ''}" placeholder="Email" />
+    <input class="form-control mb-2" name="address" value="${data.address || ''}" placeholder="Address" />
+    <input class="form-control mb-2" name="city" value="${data.city || ''}" placeholder="City" />
+    <input class="form-control mb-2" name="district" value="${data.district || ''}" placeholder="District" />
+    <input class="form-control mb-2" name="state" value="${data.state || ''}" placeholder="State" />
+    <input class="form-control mb-2" name="workerType" value="${data.workerType || ''}" placeholder="Worker Type" />
+    <input class="form-control mb-2" name="location" value="${data.location || ''}" placeholder="Google Map Link" />
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  `);
+
+  $('#profileForm').off('submit').on('submit', async function(e) {
+    e.preventDefault();
+    const updated = Object.fromEntries(new FormData(this).entries());
+    await fetch(`https://kaamkarwalo-backend.onrender.com/api/users/${worker._id}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    });
+    alert('Profile updated');
+    localStorage.setItem('worker', JSON.stringify({...worker, ...updated}));
+  });
+}
+
+window.onload = () => {
+  $('#workerWelcome').text(`Welcome, ${worker.name}`);
+  showSection('editProfile');
+}
+</script>
 </body>
 </html>
