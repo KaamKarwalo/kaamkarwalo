@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,111 +25,188 @@
   </div>
 </header>
 
+<!-- Main -->
+<main class="py-10 px-4 max-w-5xl mx-auto">
+  <h2 class="text-3xl font-bold mb-6">👋 Welcome, <span id="custName">Customer</span></h2>
 
-  <!-- Main -->
-  <main class="py-10 px-4 max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold mb-6">👋 Welcome, <span id="custName">Customer</span></h2>
+  <!-- Profile Card -->
+  <div class="grid md:grid-cols-2 gap-6 bg-white p-6 rounded shadow">
+    <div>
+      <p><strong>User ID:</strong> <span id="custId"></span></p>
+      <p><strong>Phone:</strong> <span id="custPhone"></span></p>
+      <p><strong>Email:</strong> <span id="custEmail"></span></p>
+      <p><strong>Role:</strong> <span id="custRole"></span></p>
+    </div>
+    <div>
+      <p><strong>Address:</strong> <span id="custAddress"></span></p>
+      <p><strong>City:</strong> <span id="custCity"></span></p>
+      <p><strong>District:</strong> <span id="custDistrict"></span></p>
+      <p><strong>State:</strong> <span id="custState"></span></p>
+      <p><strong>Map Location:</strong> <a href="#" target="_blank" id="custLocation" class="text-blue-600 underline">View on Map</a></p>
+    </div>
+  </div>
 
-    <div class="grid md:grid-cols-2 gap-6 bg-white p-6 rounded shadow">
+  <!-- Find Worker Section -->
+  <div class="mt-8 bg-white p-6 rounded shadow">
+    <h3 class="text-xl font-bold mb-4">🔍 Find Worker</h3>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <input id="searchState" class="border p-2 rounded w-full" placeholder="State" value="Bihar" readonly>
+      <input id="searchCity" class="border p-2 rounded w-full" placeholder="City or Village" value="Hajipur" readonly>
+      <select id="searchType" class="border p-2 rounded w-full">
+        <option value="">Select Worker Type</option>
+        <option value="labour">Labour</option>
+        <option value="mistri">Mistri</option>
+        <option value="carpenter">Carpenter</option>
+        <option value="painter">Painter</option>
+        <option value="builder">Builder</option>
+        <option value="plumber">Plumber</option>
+        <option value="electrician">Electrician</option>
+      </select>
+    </div>
+    <button onclick="findWorkers()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
+  </div>
+
+  <!-- Worker Search Results -->
+  <div id="workerResults" class="space-y-4 mt-6"></div>
+
+  <!-- Action Cards -->
+  <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="bg-blue-100 p-4 rounded shadow">
+      <h3 class="font-bold text-xl mb-2"><i class="fas fa-search text-blue-600"></i> Browse Workers</h3>
+      <p>Search available workers and hire in one click.</p>
+      <button class="mt-3 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Find Now</button>
+    </div>
+    <div class="bg-green-100 p-4 rounded shadow">
+      <h3 class="font-bold text-xl mb-2"><i class="fas fa-history text-green-600"></i> My Bookings</h3>
+      <p>View your job requests and their current status.</p>
+      <button class="mt-3 bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Check</button>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <div>
-        <p><strong>User ID:</strong> <span id="custId"></span></p>
-        <p><strong>Phone:</strong> <span id="custPhone"></span></p>
-        <p><strong>Email:</strong> <span id="custEmail"></span></p>
-        <p><strong>Role:</strong> <span id="custRole"></span></p>
+        <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
+        <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
+        <p class="mt-4">Connecting skilled laborers with those who need their services quickly and securely.</p>
       </div>
       <div>
-        <p><strong>Address:</strong> <span id="custAddress"></span></p>
-        <p><strong>City:</strong> <span id="custCity"></span></p>
-        <p><strong>District:</strong> <span id="custDistrict"></span></p>
-        <p><strong>State:</strong> <span id="custState"></span></p>
-        <p><strong>Map Location:</strong> <a href="#" target="_blank" id="custLocation" class="text-blue-600 underline">View on Map</a></p>
+        <h3 class="text-white text-lg font-semibold mb-4">Company</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white">About Us</a></li>
+          <li><a href="#" class="hover:text-white">Careers</a></li>
+          <li><a href="#" class="hover:text-white">Press</a></li>
+          <li><a href="#" class="hover:text-white">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white">Help Center</a></li>
+          <li><a href="#" class="hover:text-white">Safety</a></li>
+          <li><a href="#" class="hover:text-white">Community Guidelines</a></li>
+          <li><a href="#" class="hover:text-white">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Legal</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
+        </ul>
       </div>
     </div>
-
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div class="bg-blue-100 p-4 rounded shadow">
-        <h3 class="font-bold text-xl mb-2"><i class="fas fa-search text-blue-600"></i> Browse Workers</h3>
-        <p>Search available workers and hire in one click.</p>
-        <button class="mt-3 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Find Now</button>
-      </div>
-      <div class="bg-green-100 p-4 rounded shadow">
-        <h3 class="font-bold text-xl mb-2"><i class="fas fa-history text-green-600"></i> My Bookings</h3>
-        <p>View your job requests and their current status.</p>
-        <button class="mt-3 bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Check</button>
-      </div>
+    <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+      <p>Copyright © 2025 kaamkarwalo.in - All Rights Reserved.</p>
     </div>
-    
-  </main>
+  </div>
+</footer>
 
-  <!-- Footer -->
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
-          <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
-          <p class="mt-4">Connecting skilled laborers with those who need their services quickly and securely.</p>
-        </div>
-        <div>
-          <h3 class="text-white text-lg font-semibold mb-4">Company</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white">About Us</a></li>
-            <li><a href="#" class="hover:text-white">Careers</a></li>
-            <li><a href="#" class="hover:text-white">Press</a></li>
-            <li><a href="#" class="hover:text-white">Blog</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white">Help Center</a></li>
-            <li><a href="#" class="hover:text-white">Safety</a></li>
-            <li><a href="#" class="hover:text-white">Community Guidelines</a></li>
-            <li><a href="#" class="hover:text-white">Contact Us</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-white text-lg font-semibold mb-4">Legal</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-            <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-            <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="mt-8 pt-8 border-t border-gray-800 text-center">
-        <p>Copyright © 2025 kaamkarwalo.in - All Rights Reserved.</p>
-      </div>
-    </div>
-  </footer>
+<!-- Script -->
+<script>
+  const user = JSON.parse(localStorage.getItem("customer"));
+  if (!user || user.role !== "customer") {
+    alert("Unauthorized access. Please login first.");
+    window.location.href = "index.html";
+  }
+  document.getElementById("custName").textContent = user.name || "-";
+  document.getElementById("custId").textContent = user.userId || "-";
+  document.getElementById("custPhone").textContent = user.phone || "-";
+  document.getElementById("custEmail").textContent = user.email || "-";
+  document.getElementById("custRole").textContent = user.role || "-";
+  document.getElementById("custCity").textContent = user.city || "-";
+  document.getElementById("custDistrict").textContent = user.district || "-";
+  document.getElementById("custState").textContent = user.state || "-";
+  document.getElementById("custAddress").textContent = user.address || "-";
+  const locationLink = user.location || "#";
+  document.getElementById("custLocation").setAttribute("href", locationLink);
+  document.getElementById("custLocation").textContent = locationLink.includes("google") ? "Open Map" : "No Location";
 
-  <!-- Script to inject profile -->
-  <script>
-    const user = JSON.parse(localStorage.getItem("customer"));
+  function logout() {
+    localStorage.removeItem("customer");
+    window.location.href = "index.html";
+  }
 
-    if (!user || user.role !== "customer") {
-      alert("Unauthorized access. Please login first.");
-      window.location.href = "index.html";
+  async function findWorkers() {
+    const state = document.getElementById("searchState").value.trim().toLowerCase();
+    const city = document.getElementById("searchCity").value.trim().toLowerCase();
+    const type = document.getElementById("searchType").value;
+    const res = await fetch(`https://kaamkarwalo-backend.onrender.com/api/users`);
+    const allUsers = await res.json();
+    const workers = allUsers.filter(w =>
+      w.role === 'worker' &&
+      w.state?.toLowerCase().includes(state) &&
+      w.city?.toLowerCase().includes(city) &&
+      (type ? w.workerType === type : true)
+    );
+    const container = document.getElementById("workerResults");
+    container.innerHTML = "";
+    if (workers.length === 0) {
+      container.innerHTML = `<p class="text-red-500">No workers found for the selected criteria.</p>`;
+      return;
     }
+    workers.forEach(worker => {
+      const card = document.createElement("div");
+      card.className = "bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3";
+      card.innerHTML = `
+        <div>
+          <h4 class="font-bold">${worker.name}</h4>
+          <p>Type: ${worker.workerType}</p>
+          <p>City: ${worker.city}</p>
+        </div>
+        <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700" onclick="bookWorker('${worker._id}','${worker.name}','${worker.phone}','${worker.workerType}')">Book Now</button>
+      `;
+      container.appendChild(card);
+    });
+  }
 
-    document.getElementById("custName").textContent = user.name || "-";
-    document.getElementById("custId").textContent = user.userId || "-";
-    document.getElementById("custPhone").textContent = user.phone || "-";
-    document.getElementById("custEmail").textContent = user.email || "-";
-    document.getElementById("custRole").textContent = user.role || "-";
-    document.getElementById("custCity").textContent = user.city || "-";
-    document.getElementById("custDistrict").textContent = user.district || "-";
-    document.getElementById("custState").textContent = user.state || "-";
-    document.getElementById("custAddress").textContent = user.address || "-";
-    const locationLink = user.location || "#";
-    document.getElementById("custLocation").setAttribute("href", locationLink);
-    document.getElementById("custLocation").textContent = locationLink.includes("google") ? "Open Map" : "No Location";
-    
-    function logout() {
-      localStorage.removeItem("customer");
-      window.location.href = "index.html";
+  async function bookWorker(workerId, workerName, workerPhone, service) {
+    const customer = JSON.parse(localStorage.getItem("customer"));
+    const bookingData = {
+      customerId: customer._id,
+      customerName: customer.name,
+      customerPhone: customer.phone,
+      workerId,
+      workerName,
+      workerPhone,
+      service
+    };
+    const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bookingData)
+    });
+    const result = await res.json();
+    if (res.ok) {
+      alert('Booking confirmed and sent to admin on WhatsApp!');
+    } else {
+      alert(result.error || 'Booking failed');
     }
-  </script>
+  }
+</script>
 </body>
 </html>
