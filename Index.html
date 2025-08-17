@@ -207,6 +207,32 @@
     </div>
   </div>
 
+  <script>
+  async function getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const googleLink = `https://www.google.com/maps?q=${lat},${lng}`;
+
+          // fill the input
+          document.getElementById("regLocation").value = googleLink;
+
+          alert("📍 Location captured successfully!");
+        },
+        (error) => {
+          console.error(error);
+          alert("❌ Unable to fetch location. Please allow GPS access.");
+        }
+      );
+    } else {
+      alert("❌ Geolocation is not supported in this browser.");
+    }
+  }
+</script>
+
+
 <script>
   function generateUniqueId() {
     return 'UID-' + Math.random().toString(36).substring(2, 10).toUpperCase();
