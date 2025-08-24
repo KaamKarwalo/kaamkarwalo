@@ -283,42 +283,86 @@
     }
   }
 
+  // async function loginUser() {
+  //   const phone = $('#loginModal input[type="text"]').val();
+  //   const password = $('#loginModal input[type="password"]').val();
+
+  //   if (!phone || !password) {
+  //     alert('Enter phone and password');
+  //     return;
+  //   }
+
+  //   try {
+  //     const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ phone, password })
+  //     });
+
+  //     const result = await res.json();
+  //     if (res.ok) {
+  //       const user = result.user;
+  //       if (user.role === "admin") {
+  //         localStorage.setItem("admin", JSON.stringify(user));
+  //         window.location.href = "admin.html";
+  //       } else if (user.role === "customer") {
+  //         localStorage.setItem("customer", JSON.stringify(user));
+  //         window.location.href = "customer-home.html";
+  //       } else if (user.role === "worker") {
+  //         localStorage.setItem("worker", JSON.stringify(user));
+  //         window.location.href = "worker-page.html";
+  //       }
+  //     } else {
+  //       alert(result.error || 'Login failed');
+  //     }
+  //   } catch (err) {
+  //     alert('Server error');
+  //   }
+  // }
+
   async function loginUser() {
-    const phone = $('#loginModal input[type="text"]').val();
-    const password = $('#loginModal input[type="password"]').val();
+  const phone = $('#loginModal input[type="text"]').val();
+  const password = $('#loginModal input[type="password"]').val();
 
-    if (!phone || !password) {
-      alert('Enter phone and password');
-      return;
-    }
-
-    try {
-      const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, password })
-      });
-
-      const result = await res.json();
-      if (res.ok) {
-        const user = result.user;
-        if (user.role === "admin") {
-          localStorage.setItem("admin", JSON.stringify(user));
-          window.location.href = "admin.html";
-        } else if (user.role === "customer") {
-          localStorage.setItem("customer", JSON.stringify(user));
-          window.location.href = "customer-home.html";
-        } else if (user.role === "worker") {
-          localStorage.setItem("worker", JSON.stringify(user));
-          window.location.href = "worker-page.html";
-        }
-      } else {
-        alert(result.error || 'Login failed');
-      }
-    } catch (err) {
-      alert('Server error');
-    }
+  if (!phone || !password) {
+    alert('Enter phone and password');
+    return;
   }
+
+  // Show spinner
+  $('#loadingOverlay').removeClass('hidden');
+
+  try {
+    const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, password })
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      const user = result.user;
+      if (user.role === "admin") {
+        localStorage.setItem("admin", JSON.stringify(user));
+        window.location.href = "admin.html";
+      } else if (user.role === "customer") {
+        localStorage.setItem("customer", JSON.stringify(user));
+        window.location.href = "customer-home.html";
+      } else if (user.role === "worker") {
+        localStorage.setItem("worker", JSON.stringify(user));
+        window.location.href = "worker-page.html";
+      }
+    } else {
+      alert(result.error || 'Login failed');
+    }
+  } catch (err) {
+    alert('Server error');
+  } finally {
+    // Hide spinner (always run)
+    $('#loadingOverlay').addClass('hidden');
+  }
+}
+
 
   // Mobile menu toggle
   document.getElementById("menuToggle").addEventListener("click", () => {
@@ -395,5 +439,11 @@
     $('#loginModal button.w-full').click(loginUser);
   });
 </script>
+
+<!-- Loading Spinner -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-yellow-400"></div>
+</div>
+
 </body>
 </html>
