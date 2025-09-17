@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KaamKarwalo - Skilled Worker Hiring in Hajipur</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
@@ -24,8 +25,8 @@
   <header class="bg-gray-800 text-white py-4">
     <div class="container mx-auto flex justify-between items-center px-4">
       <div id="logoClick" class="flex items-center space-x-3 cursor-pointer">
-        <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
-        <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png" class="h-10" alt="KaamKarwalo Logo">
+      <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
       </div>
 
       <nav id="navMenu" class="hidden flex-col md:flex md:flex-row space-y-3 md:space-y-0 md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-gray-800 md:bg-transparent p-4 md:p-0 z-50">
@@ -119,7 +120,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <img src="https://img.icons8.com/fluency/48/worker-male.png" class="h-10" alt="logo">
+          <img src="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png" class="h-10" alt="KaamKarwalo Logo">
           <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
           <p class="mt-4">Connecting skilled laborers with those who need their services quickly and securely.</p>
         </div>
@@ -444,6 +445,45 @@
 <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
   <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-yellow-400"></div>
 </div>
+<!-- Welcome Video Modal -->
+<div id="welcomeVideoModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+  <div class="relative w-[90%] max-w-3xl rounded-lg shadow-lg overflow-hidden">
+    
+    <!-- Close Button (Bigger & Clearer) -->
+    <button onclick="closeWelcomeVideo()" 
+      class="absolute -top-6 -right-6 w-16 h-16 flex items-center justify-center 
+             bg-red-600 hover:bg-red-700 text-white text-4xl font-extrabold rounded-full 
+             shadow-2xl z-50">
+      &times;
+    </button>
+
+    <!-- YouTube Video -->
+    <div style="position:relative; padding-bottom:56.25%; height:0;">
+      <iframe id="welcomeVideoFrame"
+        src="https://www.youtube.com/embed/3zKDAZm1d6c?autoplay=1&mute=1&loop=1&playlist=3zKDAZm1d6c&controls=0&iv_load_policy=3&modestbranding=1&rel=0&fs=0&disablekb=1"
+        style="position:absolute; top:0; left:0; width:100%; height:100%;"
+        frameborder="0"
+        allow="autoplay; encrypted-media">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  function closeWelcomeVideo() {
+    const modal = document.getElementById("welcomeVideoModal");
+    const iframe = document.getElementById("welcomeVideoFrame");
+    modal.style.display = "none";
+    if (iframe) iframe.src = ""; // stop playback if iframe
+    const video = document.getElementById("welcomeVideo");
+    if (video) video.pause(); // stop playback if HTML5 <video>
+  }
+
+  window.onload = function() {
+    document.getElementById("welcomeVideoModal").style.display = "flex";
+  }
+</script>
+
 
 </body>
 </html>
