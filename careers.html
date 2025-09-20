@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KaamKarwalo - Join as Worker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-content {
+      animation: scroll-left 15s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Careers Content -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">Join KaamKarwalo as a Worker</h1>
+    <p class="text-gray-700 text-base md:text-lg mb-8 text-center max-w-3xl mx-auto">
+      KaamKarwalo connects skilled workers directly with customers. We welcome all professionals who want to grow their career and earn directly. 
+      Join us and get opportunities to provide services in your city.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Worker Card Template -->
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/labour.jpg" alt="Labour" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Labour</h2>
+        <p class="text-gray-600 text-sm mb-4">Join as a general labour for construction, painting, cleaning, and other services.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')"
+           class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/cunstructor.jpg" alt="Contractor" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Contractor</h2>
+        <p class="text-gray-600 text-sm mb-4">Manage teams and projects, get more visibility and direct work from customers.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/AC_Servicing.jpg" alt="Electrician" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Electrician</h2>
+        <p class="text-gray-600 text-sm mb-4">Provide electrical repair, installation, and maintenance services to customers.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/plumber.jpg" alt="Plumber" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Plumber</h2>
+        <p class="text-gray-600 text-sm mb-4">Handle plumbing, leakage repairs, and pipe installations.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/mason.jpg" alt="Mistri" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Mistri</h2>
+        <p class="text-gray-600 text-sm mb-4">Skilled in masonry, tiles, and construction work.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/carpenter.jpg" alt="Carpenter" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Carpenter</h2>
+        <p class="text-gray-600 text-sm mb-4">Provide furniture making, repair, and carpentry services.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/painter.jpg" alt="Painter" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Painter</h2>
+        <p class="text-gray-600 text-sm mb-4">Wall painting, decoration, and finishing services.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition duration-300">
+        <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/tiles_mistri.jpg" alt="Tiles Mistri" class="w-full h-32 object-cover rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Tiles Mistri</h2>
+        <p class="text-gray-600 text-sm mb-4">Expert in tile fitting, flooring, and finishing work.</p>
+        <button onclick="document.getElementById('registerModal').classList.remove('hidden')" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Join Now
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- Load header and footer -->
+  <script>
+    $(function() {
+      $("#header").load("../header.html");
+      $("#footer").load("../footer.html");
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-content {
+      animation: scroll-left 15s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto py-12 px-4">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Contact Us</h1>
+    <p class="text-center text-gray-600 mb-12">
+      Have questions or feedback? Reach out to us and we'll get back to you as soon as possible.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Contact Form -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Send Us a Message</h2>
+        <form id="contactForm" class="space-y-4">
+          <input type="text" name="name" placeholder="Your Name *" required
+                 class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="email" name="email" placeholder="Your Email *" required
+                 class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="tel" name="phone" placeholder="Mobile Number" 
+                 class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <textarea name="message" rows="5" placeholder="Your Message *" required
+                    class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+            Submit
+          </button>
+        </form>
+        <p id="contactStatus" class="mt-2 text-sm text-green-600 hidden">Your message has been sent!</p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Our Contact Details</h2>
+        <p class="text-gray-600 mb-2"><strong>Address:</strong> Hajipur, Bihar, India</p>
+        <p class="text-gray-600 mb-2"><strong>Email:</strong> kaamkarwalo.in@gmail.com</p>
+        <p class="text-gray-600 mb-2"><strong>Phone:</strong> +91 9508216353</p>
+
+        <h3 class="text-lg font-semibold mt-6 mb-2">Connect with Us</h3>
+        <div class="flex space-x-4">
+          <a href="https://www.facebook.com/kaamkarwalo.in" target="_blank" class="text-blue-600 hover:text-blue-800">
+            <i class="fab fa-facebook fa-2x"></i>
+          </a>
+          <a href="https://www.instagram.com/kaamkarwalo.in" target="_blank" class="text-pink-500 hover:text-pink-700">
+            <i class="fab fa-instagram fa-2x"></i>
+          </a>
+          <a href="https://wa.me/919508216353" target="_blank" class="text-green-500 hover:text-green-700">
+            <i class="fab fa-whatsapp fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- FontAwesome for social icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <script>
+    $(function() {
+      $("#header").load("../header.html");
+      $("#footer").load("../footer.html");
+
+      // Simple form submission handler (example)
+      $("#contactForm").on("submit", function(e) {
+        e.preventDefault();
+        // Here you can integrate backend API to send the message
+        $("#contactStatus").removeClass("hidden");
+        $(this)[0].reset();
+      });
+    });
+  </script>
+</body>
+</html>

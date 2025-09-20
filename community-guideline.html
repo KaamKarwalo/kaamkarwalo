@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Community Guidelines - KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-content {
+      animation: scroll-left 15s linear infinite;
+    }
+  </style>
+
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto py-12 px-4">
+    <!-- Page Title -->
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">Community Guidelines</h1>
+
+    <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+      At <strong>KaamKarwalo</strong>, we believe in building a safe, respectful, and trustworthy environment 
+      for both customers and workers. Our community guidelines help ensure fairness, professionalism, and dignity for all.
+    </p>
+
+    <!-- Guidelines Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- Respect -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">🤝 Respect & Professionalism</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Treat everyone with respect. Workers and customers must maintain professionalism, 
+          avoid offensive behavior, and communicate politely.
+        </p>
+      </div>
+
+      <!-- Fair Payment -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">💰 Fair & Transparent Payments</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Customers must pay agreed amounts on time. Workers should only charge fair prices 
+          and complete tasks as promised.
+        </p>
+      </div>
+
+      <!-- Safety First -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">🛡️ Safety First</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Both parties must follow safety guidelines. Workers should use proper tools and equipment, 
+          while customers must provide a safe work environment.
+        </p>
+      </div>
+
+      <!-- No Misuse -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">🚫 No Misuse of Platform</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Fraud, fake bookings, or misuse of the KaamKarwalo platform is strictly prohibited. 
+          Violations may result in account suspension.
+        </p>
+      </div>
+
+      <!-- Communication -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">📞 Clear Communication</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Always discuss job requirements, costs, and timelines before starting work. 
+          Misunderstandings can be avoided with transparent communication.
+        </p>
+      </div>
+
+      <!-- Zero Tolerance -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">⚖️ Zero Tolerance for Harassment</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Any form of harassment, abuse, or discrimination will not be tolerated. 
+          Such cases will lead to permanent removal from the platform.
+        </p>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <section class="text-center mt-12 bg-blue-50 p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">Together, We Build Trust</h2>
+      <p class="text-gray-600 mb-4">
+        Following these guidelines ensures a safe and professional experience for everyone. 
+        Let’s create a strong and reliable community together.
+      </p>
+      <a href="contact.html" 
+         class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+        Report an Issue
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <script>
+    // Load header and footer dynamically
+    $(function () {
+      $("#header").load("../header.html");
+      $("#footer").load("../footer.html");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help Center - KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-content {
+      animation: scroll-left 15s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto py-12 px-4">
+    <!-- Page Title -->
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Help Center</h1>
+
+    <!-- Search Bar -->
+    <div class="max-w-2xl mx-auto mb-10">
+      <input type="text" placeholder="Search your query..."
+             class="w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-gray-700 mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <!-- Q1 -->
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="cursor-pointer font-semibold text-gray-800">How do I hire a worker?</summary>
+          <p class="mt-2 text-gray-600">Simply register/login, select the type of worker you need (Labour, Electrician, Plumber, etc.), and book directly from our platform.</p>
+        </details>
+
+        <!-- Q2 -->
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="cursor-pointer font-semibold text-gray-800">Is KaamKarwalo available in all cities?</summary>
+          <p class="mt-2 text-gray-600">Currently, we are starting from Hajipur and Bihar region, but expanding to other areas soon.</p>
+        </details>
+
+        <!-- Q3 -->
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="cursor-pointer font-semibold text-gray-800">How do workers join the platform?</summary>
+          <p class="mt-2 text-gray-600">Workers can sign up under the Careers section and register themselves by providing their skills and details.</p>
+        </details>
+
+        <!-- Q4 -->
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="cursor-pointer font-semibold text-gray-800">Is payment safe?</summary>
+          <p class="mt-2 text-gray-600">Yes, we ensure transparent and secure transactions between customers and workers.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Contact Support -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold text-gray-700 mb-4">Still need help?</h2>
+      <p class="text-gray-600 mb-6">If your question is not answered above, feel free to reach out to us directly.</p>
+
+      <div class="space-y-4">
+        <p class="text-gray-700"><strong>Email:</strong> kaamkarwalo.in@gmail.com</p>
+        <p class="text-gray-700"><strong>Phone:</strong> +91-9508216353</p>
+        <p class="text-gray-700"><strong>WhatsApp:</strong> <a href="https://wa.me/919508216353" class="text-blue-600 hover:underline">Click to Chat</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <script>
+    // Load header and footer dynamically
+    $(function () {
+      $("#header").load("../header.html");
+      $("#footer").load("../footer.html");
+    });
+  </script>
+</body>
+</html>

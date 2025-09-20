@@ -221,8 +221,6 @@
 
 
 
-
-
   <!-- Testimonials -->
   <section id="testimonials" class="bg-gray-100 py-12">
     <div class="container mx-auto px-4 text-center">
@@ -243,4 +241,89 @@
       </div>
     </div>
   </section>
+
+
+  <!-- Initiative Section -->
+   <!-- Initiative Section -->
+<div class="bg-gray-100 py-8 px-4 mt-10 rounded-lg shadow-inner">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Initiative by IITian</h2>
+    <p class="text-gray-600 text-base md:text-lg max-w-3xl mx-auto">
+      Our goal is to provide services to customers by directly connecting skilled workers to them.  
+      KaamKarwalo simplifies hiring of labour, electricians, painters, plumbers, and other professionals while promoting transparency and trust.
+    </p>
+  </div>
+</div>
+
+<!-- Other Website Showoff -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-10 px-4">
+
+  <!-- Box 1: Scrollable Website -->
+  <div class="bg-white shadow-md rounded-lg overflow-hidden h-80">
+    <iframe src="https://bocwscheme.bihar.gov.in/home" 
+            class="w-full h-full border-0" 
+            loading="lazy"></iframe>
+  </div>
+
+  <!-- Box 2: Image Card with Heading & Text -->
+  <div class="bg-white shadow-md rounded-lg flex flex-col h-80 overflow-hidden transform hover:scale-105 transition duration-300">
+    <img src="https://currentaffairs.adda247.com/wp-content/uploads/multisite/sites/5/2023/01/10115318/STARTUP-700x410-1.png" 
+         alt="Startup India" class="w-full h-4/5 object-cover">
+    <div class="h-1/5 p-2 text-center bg-gray-50">
+      <h3 class="font-bold text-lg">Startup India</h3>
+      <p class="text-gray-600 text-sm">Government portal for startups & entrepreneurs.</p>
+    </div>
+  </div>
+
+  <!-- Box 3: Image Card with Heading & Text -->
+  <div class="bg-white shadow-md rounded-lg flex flex-col h-80 overflow-hidden transform hover:scale-105 transition duration-300">
+    <img src="https://okcredit-blog-images-prod.storage.googleapis.com/2020/10/vocal1-1.jpg" 
+         alt="Vocal For Local" class="w-full h-4/5 object-cover">
+    <div class="h-1/5 p-2 text-center bg-gray-50">
+      <h3 class="font-bold text-lg">Vocal For Local</h3>
+      <p class="text-gray-600 text-sm">Narendra Modi initiative.</p>
+    </div>
+  </div>
+
+  <!-- Box 4: Gallery -->
+  <div class="bg-white shadow-md rounded-lg flex flex-col h-80">
+    <!-- Gallery Slider 90% -->
+    <div class="relative flex-[9] overflow-hidden rounded-t-md" id="photoSlider">
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/AC_Servicing.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-700" />
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/Pamphlet.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700" />
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/carpenter.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700" />
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/digital_india.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700" />
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/feedback_1.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700" />
+      <img src="https://raw.githubusercontent.com/KaamKarwalo/image/main/labour.jpg" 
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700" />
+    </div>
+
+    <!-- Text Section 10% -->
+    <div class="flex-[1] p-1 text-center bg-gray-50 flex items-center justify-center">
+      <h3 class="font-bold text-base">Gallery</h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Simple image slider
+let slideIndex = 0;
+const slides = document.querySelectorAll("#photoSlider img");
+
+function showSlides() {
+  slides.forEach((slide, i) => {
+    slide.style.opacity = (i === slideIndex) ? "1" : "0";
+  });
+  slideIndex = (slideIndex + 1) % slides.length;
+}
+
+setInterval(showSlides, 3000);
+showSlides();
+</script>
 
