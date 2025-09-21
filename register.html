@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KaamKarwalo - Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-content {
+      animation: scroll-left 15s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+    <!-- Heading -->
+    <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Create Your Account</h2>
+
+    <!-- Close Button (optional if modal behavior required) -->
+    <button class="absolute top-4 right-4 text-gray-500 hover:text-black" onclick="window.location.href='index.html'">
+      <i class="fas fa-times text-xl"></i>
+    </button>
+
+    <!-- Role -->
+    <select id="userRole" class="w-full border px-3 py-2 mb-3 rounded">
+      <option value="">Select Role</option>
+      <option value="customer">Customer</option>
+      <option value="worker">Worker</option>
+    </select>
+
+    <!-- User ID -->
+    <input type="text" id="uniqueId" placeholder="User ID" 
+           class="w-full border px-3 py-2 mb-3 rounded bg-gray-100 text-gray-500" readonly />
+
+    <!-- Name -->
+    <input type="text" id="regName" placeholder="Name *" class="w-full border px-3 py-2 mb-3 rounded" required />
+
+    <!-- Email -->
+    <input type="email" id="regEmail" placeholder="Email (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- Phone -->
+    <input type="tel" id="regPhone" placeholder="Mobile Number *" class="w-full border px-3 py-2 mb-3 rounded" required />
+
+    <!-- Worker Type -->
+    <select id="workerType" class="w-full border px-3 py-2 mb-3 rounded hidden">
+      <option value="">Select Worker Type</option>
+      <option value="labour">Labour</option>
+      <option value="mistri">Mistri</option>
+      <option value="carpenter">Carpenter</option>
+      <option value="painter">Painter</option>
+      <option value="builder">Builder</option>
+      <option value="plumber">Plumber</option>
+      <option value="electrician">Electrician</option>
+    </select>
+
+    <!-- Address -->
+    <input type="text" id="regAddress" placeholder="Full Address" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- State -->
+    <input type="text" id="regState" placeholder="State *" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- City -->
+    <input type="text" id="regCity" placeholder="City *" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- District -->
+    <input type="text" id="regDistrict" placeholder="District *" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- Google Map Link -->
+    <input type="text" id="regLocation" placeholder="Google Map Link (Optional)" class="w-full border px-3 py-2 mb-3 rounded" />
+    <button type="button" onclick="getCurrentLocation()" class="bg-blue-500 text-white py-1 px-3 rounded mb-3 hover:bg-blue-600 text-sm">Use Current Location</button>
+
+    <!-- Password -->
+    <input type="password" id="regPassword" placeholder="Password" class="w-full border px-3 py-2 mb-3 rounded" />
+
+    <!-- Register Button -->
+    <button id="submitRegister" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 font-bold">Register</button>
+
+    <!-- Already have account -->
+    <div class="text-center mt-4 text-gray-700">
+      Already have an account? 
+      <a href="sign-in.html" class="text-blue-600 font-bold hover:underline">Sign In</a>
+    </div>
+  </div>
+
+  <script>
+    // Generate unique ID on role change
+    $("#userRole").change(function() {
+      const role = $(this).val();
+      $("#uniqueId").val("UID-" + Math.random().toString(36).substring(2, 10).toUpperCase());
+      if (role === "worker") {
+        $("#workerType").removeClass("hidden");
+      } else {
+        $("#workerType").addClass("hidden");
+      }
+    });
+
+    // Go to login page
+    $("#goLogin").on("click", () => {
+      window.location.href = "login.html";
+    });
+  </script>
+  <!-- External JS -->
+  <script src="main.js"></script>
+  <!-- Loading Spinner -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-yellow-400"></div>
+</div>
+</body>
+</html>

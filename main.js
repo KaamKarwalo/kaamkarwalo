@@ -26,20 +26,69 @@ function generateUniqueId() {
 }
 
 // 📍 Register User
+// async function registerUser() {
+//   // preferred selectors (IDs). If missing, use fallbacks inside the modals.
+//   const userId = $("#uniqueId").val() ? $("#uniqueId").val().trim() : "";
+//   const role = $("#userRole").val() ? $("#userRole").val().trim() : $("#registerModal select").val() || "";
+//   const name = $("#regName").val() ? $("#regName").val().trim() : $("#registerModal input[placeholder='Name *']").val() || "";
+//   const email = $("#regEmail").val() ? $("#regEmail").val().trim() : $("#registerModal input[type='email']").val() || "";
+//   const phone = $("#regPhone").val() ? $("#regPhone").val().trim() : $("#registerModal input[placeholder*='Mobile']").val() || "";
+//   const password = $("#registerModal input[type='password']").first().val() ? $("#registerModal input[type='password']").first().val().trim() : "";
+//   const workerType = role === "worker" ? ($("#workerType").val() ? $("#workerType").val().trim() : "") : "";
+//   const city = $("#regCity").val() ? $("#regCity").val().trim() : $("#registerModal input[placeholder*='City']").val() || "";
+//   const district = $("#regDistrict").val() ? $("#regDistrict").val().trim() : $("#registerModal input[placeholder*='District']").val() || "";
+//   const state = $("#regState").val() ? $("#regState").val().trim() : $("#registerModal input[placeholder*='State']").val() || "";
+//   const address = $("#regAddress").val() ? $("#regAddress").val().trim() : $("#registerModal input[placeholder*='Full Address']").val() || "";
+//   const location = $("#regLocation").val() ? $("#regLocation").val().trim() : $("#registerModal input[placeholder*='Google Map']").val() || "";
+
+//   if (!userId || !role || !name || !phone || !password || !city || !district || !state) {
+//     alert("Please fill all required fields");
+//     return;
+//   }
+//   if (role === "worker" && !workerType) {
+//     alert("Please select a worker type");
+//     return;
+//   }
+
+//   const data = {
+//     userId, role, name, email, phone, password,
+//     workerType, city, district, state, address, location
+//   };
+
+//   try {
+//     const res = await fetch("https://kaamkarwalo-backend.onrender.com/api/register", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(data),
+//     });
+
+//     const result = await res.json();
+//     if (res.ok) {
+//       alert(result.message || "Registered!");
+//       $("#registerModal").addClass("hidden");
+//       $("#registerModal input").val("");
+//     } else {
+//       alert(result.error || "Registration failed.");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert("Server error");
+//   }
+// }
+
 async function registerUser() {
-  // preferred selectors (IDs). If missing, use fallbacks inside the modals.
-  const userId = $("#uniqueId").val() ? $("#uniqueId").val().trim() : "";
-  const role = $("#userRole").val() ? $("#userRole").val().trim() : $("#registerModal select").val() || "";
-  const name = $("#regName").val() ? $("#regName").val().trim() : $("#registerModal input[placeholder='Name *']").val() || "";
-  const email = $("#regEmail").val() ? $("#regEmail").val().trim() : $("#registerModal input[type='email']").val() || "";
-  const phone = $("#regPhone").val() ? $("#regPhone").val().trim() : $("#registerModal input[placeholder*='Mobile']").val() || "";
-  const password = $("#registerModal input[type='password']").first().val() ? $("#registerModal input[type='password']").first().val().trim() : "";
-  const workerType = role === "worker" ? ($("#workerType").val() ? $("#workerType").val().trim() : "") : "";
-  const city = $("#regCity").val() ? $("#regCity").val().trim() : $("#registerModal input[placeholder*='City']").val() || "";
-  const district = $("#regDistrict").val() ? $("#regDistrict").val().trim() : $("#registerModal input[placeholder*='District']").val() || "";
-  const state = $("#regState").val() ? $("#regState").val().trim() : $("#registerModal input[placeholder*='State']").val() || "";
-  const address = $("#regAddress").val() ? $("#regAddress").val().trim() : $("#registerModal input[placeholder*='Full Address']").val() || "";
-  const location = $("#regLocation").val() ? $("#regLocation").val().trim() : $("#registerModal input[placeholder*='Google Map']").val() || "";
+  const userId = $("#uniqueId").val().trim();
+  const role = $("#userRole").val().trim();
+  const name = $("#regName").val().trim();
+  const email = $("#regEmail").val().trim();
+  const phone = $("#regPhone").val().trim();
+  const password = $("#regPassword").val().trim();
+  const workerType = role === "worker" ? $("#workerType").val().trim() : "";
+  const city = $("#regCity").val().trim();
+  const district = $("#regDistrict").val().trim();
+  const state = $("#regState").val().trim();
+  const address = $("#regAddress").val().trim();
+  const location = $("#regLocation").val().trim();
 
   if (!userId || !role || !name || !phone || !password || !city || !district || !state) {
     alert("Please fill all required fields");
@@ -50,12 +99,12 @@ async function registerUser() {
     return;
   }
 
-  const data = {
-    userId, role, name, email, phone, password,
-    workerType, city, district, state, address, location
-  };
+  const data = { userId, role, name, email, phone, password, workerType, city, district, state, address, location };
 
   try {
+    // Show spinner
+    $("#loadingOverlay").removeClass("hidden");
+
     const res = await fetch("https://kaamkarwalo-backend.onrender.com/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -63,16 +112,19 @@ async function registerUser() {
     });
 
     const result = await res.json();
+
     if (res.ok) {
       alert(result.message || "Registered!");
-      $("#registerModal").addClass("hidden");
-      $("#registerModal input").val("");
+      $("input, select").val("");
     } else {
       alert(result.error || "Registration failed.");
     }
   } catch (err) {
     console.error(err);
     alert("Server error");
+  } finally {
+    // Always hide spinner after request completes
+    $("#loadingOverlay").addClass("hidden");
   }
 }
 
