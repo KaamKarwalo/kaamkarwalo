@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment | KaamKarwalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+<!-- Header -->
+<header id="header"></header>
+
+<!-- Main Payment Section -->
+<main class="max-w-3xl mx-auto p-6 mt-8">
+  <h2 class="text-2xl font-bold mb-6">💳 Payment</h2>
+
+  <!-- Payment Summary -->
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-4">Order Summary</h3>
+    <div id="bookingSummary" class="space-y-4"></div>
+    <p class="font-bold mt-4 text-lg">Total Amount: ₹<span id="paymentTotal">0</span></p>
+  </div>
+
+  <!-- Payment Method -->
+  <div id="paymentMethods" class="bg-white shadow rounded-lg p-6 mb-6">
+    <h3 class="text-xl font-semibold mb-4">Select Payment Method</h3>
+    <div class="space-y-3">
+      <label class="flex items-center gap-2">
+        <input type="radio" name="paymentMethod" value="upi" checked>
+        <span>UPI / Online Payment</span>
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="radio" name="paymentMethod" value="cod">
+        <span>Cash on Delivery (Pay at Doorstep)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Proceed Button -->
+  <div class="flex justify-end">
+    <button id="payBtn" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Pay / Confirm</button>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer"></footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // Load header & footer
+  $(function() {
+    $("#header").load("header.html");
+    $("#footer").load("footer.html");
+  });
+
+  // Load pending payment from localStorage
+  const pendingPayment = JSON.parse(localStorage.getItem("pendingPayment"));
+  if(!pendingPayment) {
+    alert("No pending payment found!");
+    window.location.href = "customer-home.html";
+  }
+
+  const bookingSummaryContainer = document.getElementById("bookingSummary");
+  pendingPayment.bookings.forEach(b => {
+    const div = document.createElement("div");
+    div.className = "flex justify-between items-center border-b py-2";
+    div.innerHTML = `
+      <div class="flex items-center gap-3">
+        <img src="${b.image || 'https://via.placeholder.com/60'}" alt="${b.service}" class="w-16 h-16 object-cover rounded">
+        <span>${b.service}</span>
+      </div>
+      <span>₹${b.price || 49}</span>
+    `;
+    bookingSummaryContainer.appendChild(div);
+  });
+
+  // Display total
+  const totalAmount = pendingPayment.total || 0;
+  document.getElementById("paymentTotal").textContent = totalAmount;
+
+  const paymentMethodsDiv = document.getElementById("paymentMethods");
+  const payBtn = document.getElementById("payBtn");
+
+  // If total is 0, hide payment method options and update button text
+  if(totalAmount === 0){
+    paymentMethodsDiv.style.display = "none";
+    payBtn.textContent = "Confirm Booking";
+  }
+
+  // Handle payment confirm
+  payBtn.addEventListener("click", async () => {
+    const method = totalAmount === 0 ? "cod" : document.querySelector('input[name="paymentMethod"]:checked').value;
+    const customer = JSON.parse(localStorage.getItem("customer"));
+
+    if (!customer) {
+      alert("Please login first!");
+      return;
+    }
+
+    // Loop through each booking and send to backend
+    for (let b of pendingPayment.bookings) {
+      const bookingData = {
+        customerId: customer._id,
+        customerName: customer.name,
+        customerPhone: customer.phone,
+        workerId: b.workerId,
+        workerName: b.workerName,
+        workerPhone: b.workerPhone,
+        service: b.service,
+        price: b.price || 49,
+        paymentMethod: method,
+        paymentStatus: method === "cod" ? "Pending" : "Paid"
+      };
+
+      try {
+        const res = await fetch("https://kaamkarwalo-backend.onrender.com/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingData)
+        });
+
+        const result = await res.json();
+        if (!res.ok) {
+          alert(result.error || "Booking failed for " + b.service);
+          return;
+        }
+      } catch (err) {
+        alert("Error while booking: " + err.message);
+        return;
+      }
+    }
+
+    // If online payment selected → open UPI app
+    if (method === "upi" && totalAmount > 0) {
+      const upiId = "abhisheksachink@oksbi";
+      const name = "KaamKarwalo";
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${totalAmount}&cu=INR`;
+      window.location.href = upiUrl;
+      return;
+    }
+
+    // Clear pending payment & confirm
+    localStorage.removeItem("pendingPayment");
+    alert("✅ Booking confirmed and sent to admin!");
+    window.location.href = "customer-home.html";
+  });
+
+  // Load header & footer
+$(function() {
+  $("#header").load("header.html", function() {
+    // Hide login/register buttons on this page
+    $("#loginBtn, #registerBtn").hide();
+  });
+  $("#footer").load("footer.html");
+});
+
+</script>
+</body>
+</html>

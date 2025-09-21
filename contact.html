@@ -93,6 +93,17 @@
         $(this)[0].reset();
       });
     });
+
+
+    // Load header & footer
+$(function() {
+  $("#header").load("header.html", function() {
+    // Hide login/register buttons on this page
+    $("#loginBtn, #registerBtn").hide();
+  });
+  $("#footer").load("footer.html");
+});
+
   </script>
 </body>
 </html>

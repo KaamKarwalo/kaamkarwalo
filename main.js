@@ -273,3 +273,48 @@ $(function () {
   });
   $("#hero").load("hero.html");
 });
+
+
+function bookService(serviceName) {
+  localStorage.setItem("pendingService", serviceName);
+
+  // check if logged in
+  if (localStorage.getItem("customer")) {
+    window.location.href = "customer-home.html";
+  } else {
+    // show login popup in the center
+    $("#loginModal").removeClass("hidden").addClass("flex");
+  }
+}
+
+
+// 📍 Add service to cart
+function addToCart(service) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+  // Check if service already exists
+  const exists = cart.find(item => item.serviceName === service.serviceName);
+  if (!exists) {
+    cart.push(service);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${service.serviceName} added to cart!`);
+  } else {
+    alert(`${service.serviceName} is already in your cart`);
+  }
+}
+
+// 📍 Book Service (called on home page "Book Now")
+function bookService(serviceName) {
+  const service = { serviceName };
+
+  // check if logged in
+  if (localStorage.getItem("customer")) {
+    addToCart(service); // add to cart
+    window.location.href = "customer-home.html"; // navigate to customer page
+  } else {
+    // show login popup
+    document.getElementById("loginModal").classList.remove("hidden");
+    localStorage.setItem("pendingService", serviceName); // save pending action
+  }
+}
+

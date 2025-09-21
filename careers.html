@@ -118,6 +118,17 @@
       $("#header").load("../header.html");
       $("#footer").load("../footer.html");
     });
+
+
+    // Load header & footer
+$(function() {
+  $("#header").load("header.html", function() {
+    // Hide login/register buttons on this page
+    $("#loginBtn, #registerBtn").hide();
+  });
+  $("#footer").load("footer.html");
+});
+
   </script>
 
 </body>

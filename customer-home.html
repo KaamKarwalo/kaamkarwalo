@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,206 +6,317 @@
   <title>Customer Dashboard | KaamKarwalo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .modal-body { max-height: 60vh; overflow:auto; }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800">
+<body class="bg-gray-100 font-sans text-gray-800">
 
 <!-- Header -->
-<header class="bg-gray-800 text-white py-4 shadow">
-  <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-    <a href="index.html" class="flex items-center gap-3" style="text-decoration:none; color:inherit;">
-      <img src="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png" class="h-10" alt="KaamKarwalo Logo">
-      <h1 class="text-2xl font-bold">
-        <span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span>
-      </h1>
-    </a>
-    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-1 rounded text-white">
-      Logout
-    </button>
-  </div>
-</header>
+<header id="header"></header>
 
-<!-- Main -->
-<main class="py-10 px-4 max-w-5xl mx-auto">
-  <h2 class="text-3xl font-bold mb-6">👋 Welcome, <span id="custName">Customer</span></h2>
+<main class="max-w-7xl mx-auto px-4 py-8">
 
-  <!-- Profile Card -->
-  <div class="grid md:grid-cols-2 gap-6 bg-white p-6 rounded shadow">
+  <!-- Welcome Banner -->
+  <div class="bg-gradient-to-r from-blue-500 to-yellow-500 text-white p-6 rounded-lg shadow-md flex justify-between items-center">
     <div>
-      <p><strong>User ID:</strong> <span id="custId"></span></p>
-      <p><strong>Phone:</strong> <span id="custPhone"></span></p>
-      <p><strong>Email:</strong> <span id="custEmail"></span></p>
-      <p><strong>Role:</strong> <span id="custRole"></span></p>
+      <h2 class="text-2xl font-bold">👋 Welcome, <span id="custName">Customer</span></h2>
+      <p class="text-sm">Manage your bookings, payments, and cart all in one place</p>
     </div>
     <div>
-      <p><strong>Address:</strong> <span id="custAddress"></span></p>
-      <p><strong>City:</strong> <span id="custCity"></span></p>
-      <p><strong>District:</strong> <span id="custDistrict"></span></p>
-      <p><strong>State:</strong> <span id="custState"></span></p>
-      <p><strong>Map Location:</strong> <a href="#" target="_blank" id="custLocation" class="text-blue-600 underline">View on Map</a></p>
+      <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
     </div>
   </div>
 
-  <!-- Find Worker Section -->
-  <div class="mt-8 bg-white p-6 rounded shadow">
-    <h3 class="text-xl font-bold mb-4">🔍 Find Worker</h3>
-    <div class="grid md:grid-cols-3 gap-4 mb-4">
-      <input id="searchState" class="border p-2 rounded w-full" placeholder="State" value="Bihar" readonly>
-      <input id="searchCity" class="border p-2 rounded w-full" placeholder="City or Village" value="Hajipur" readonly>
-      <select id="searchType" class="border p-2 rounded w-full">
-        <option value="">Select Worker Type</option>
-        <option value="labour">Labour</option>
-        <option value="mistri">Mistri</option>
-        <option value="carpenter">Carpenter</option>
-        <option value="painter">Painter</option>
-        <option value="builder">Builder</option>
-        <option value="plumber">Plumber</option>
-        <option value="electrician">Electrician</option>
-      </select>
-    </div>
-    <button onclick="findWorkers()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
-  </div>
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
 
-  <!-- Worker Search Results -->
-  <div id="workerResults" class="space-y-4 mt-6"></div>
+    <!-- Sidebar -->
+    <aside class="bg-white shadow rounded-lg p-6 space-y-4">
+      <h3 class="text-lg font-semibold border-b pb-2">My Account</h3>
+      <ul class="space-y-2 text-gray-700">
+        <li><a href="#profile" class="block hover:text-blue-600"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="#bookings" class="block hover:text-blue-600"><i class="fas fa-briefcase"></i> My Bookings</a></li>
+        <li><a href="#cart" class="block hover:text-blue-600"><i class="fas fa-shopping-cart"></i> My Cart</a></li>
+        <li><a href="#payments" class="block hover:text-blue-600"><i class="fas fa-credit-card"></i> Payment History</a></li>
+        <li><a href="#orders" class="block hover:text-blue-600"><i class="fas fa-box"></i> Order History</a></li>
+      </ul>
+    </aside>
 
-  <!-- Action Cards -->
-  <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-    <div class="bg-blue-100 p-4 rounded shadow">
-      <h3 class="font-bold text-xl mb-2"><i class="fas fa-search text-blue-600"></i> Browse Workers</h3>
-      <p>Search available workers and hire in one click.</p>
-      <button class="mt-3 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Find Now</button>
-    </div>
-    <div class="bg-green-100 p-4 rounded shadow">
-      <h3 class="font-bold text-xl mb-2"><i class="fas fa-history text-green-600"></i> My Bookings</h3>
-      <p>View your job requests and their current status.</p>
-      <button class="mt-3 bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Check</button>
-    </div>
+    <!-- Main Dashboard Content -->
+    <section class="lg:col-span-3 space-y-8">
+
+      <!-- Profile Card -->
+      <div id="profile" class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-bold mb-4">👤 Profile Details</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <p><strong>User ID:</strong> <span id="custId">-</span></p>
+          <p><strong>Phone:</strong> <span id="custPhone">-</span></p>
+          <p><strong>Email:</strong> <span id="custEmail">-</span></p>
+          <p><strong>Role:</strong> <span id="custRole">-</span></p>
+          <p><strong>Address:</strong> <span id="custAddress">-</span></p>
+          <p><strong>City:</strong> <span id="custCity">-</span></p>
+          <p><strong>District:</strong> <span id="custDistrict">-</span></p>
+          <p><strong>State:</strong> <span id="custState">-</span></p>
+          <p><strong>Map:</strong> <a id="custLocation" href="#" target="_blank" class="text-blue-600 underline">Open Map</a></p>
+        </div>
+      </div>
+
+      <!-- My Bookings -->
+      <div id="bookings" class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-bold mb-4">📅 My Bookings</h3>
+        <div id="bookingList" class="space-y-4 text-sm text-gray-700">
+          <p>Loading your bookings...</p>
+        </div>
+      </div>
+
+      <!-- Cart -->
+      <div id="cart" class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-bold mb-4">🛒 My Cart</h3>
+        <div id="cartList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+        <div class="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+          <div class="flex items-center gap-2">
+            <input type="text" id="couponCode" placeholder="Enter Coupon Code" class="border p-2 rounded">
+            <button id="applyCoupon" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Apply</button>
+          </div>
+          <div class="text-right">
+            <p id="couponMessage" class="text-sm text-green-600 mb-2"></p>
+            <button id="proceedBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment History -->
+      <div id="payments" class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-bold mb-4">💳 Payment History</h3>
+        <div id="paymentHistory" class="text-sm text-gray-700">
+          <p>No payments made yet.</p>
+        </div>
+      </div>
+
+      <!-- Order History -->
+      <div id="orders" class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-bold mb-4">📦 Order History</h3>
+        <div id="orderHistory" class="text-sm text-gray-700">
+          <p>No orders yet.</p>
+        </div>
+      </div>
+
+    </section>
   </div>
 </main>
 
-<!-- Footer -->
-<footer class="bg-gray-900 text-gray-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <img src="https://raw.githubusercontent.com/KaamKarwalo/logo/main/logo_1_bgremove.png" class="h-10" alt="KaamKarwalo Logo">
-        <h1 class="text-2xl font-bold"><span class="text-blue-400">Kaam</span><span class="text-yellow-400">Karwalo</span></h1>
-        <p class="mt-4">Connecting skilled laborers with those who need their services quickly and securely.</p>
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-lg w-11/12 md:w-2/3 max-w-2xl">
+    <h3 class="text-xl font-bold mb-4">Checkout</h3>
+    <div class="modal-body mb-4">
+      <div class="mb-4">
+        <h4 class="font-semibold mb-2">Delivery Address</h4>
+        <input type="text" id="checkoutName" placeholder="Full Name" class="border p-2 rounded w-full mb-2">
+        <input type="text" id="checkoutPhone" placeholder="Phone" class="border p-2 rounded w-full mb-2">
+        <input type="text" id="checkoutAddress" placeholder="Full Address" class="border p-2 rounded w-full mb-2">
+        <input type="text" id="checkoutCity" placeholder="City" class="border p-2 rounded w-full mb-2">
+        <input type="text" id="checkoutState" placeholder="State" class="border p-2 rounded w-full mb-2">
+        <input type="text" id="checkoutDistrict" placeholder="District" class="border p-2 rounded w-full">
       </div>
-      <div>
-        <h3 class="text-white text-lg font-semibold mb-4">Company</h3>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">About Us</a></li>
-          <li><a href="#" class="hover:text-white">Careers</a></li>
-          <li><a href="#" class="hover:text-white">Press</a></li>
-          <li><a href="#" class="hover:text-white">Blog</a></li>
-        </ul>
+      <div class="mb-4">
+        <h4 class="font-semibold mb-2">Purpose of Service</h4>
+        <textarea id="servicePurpose" placeholder="Write the purpose of booking..." class="border p-2 rounded w-full"></textarea>
       </div>
-      <div>
-        <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">Help Center</a></li>
-          <li><a href="#" class="hover:text-white">Safety</a></li>
-          <li><a href="#" class="hover:text-white">Community Guidelines</a></li>
-          <li><a href="#" class="hover:text-white">Contact Us</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-white text-lg font-semibold mb-4">Legal</h3>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-          <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
-        </ul>
+      <div class="mb-4">
+        <h4 class="font-semibold mb-2">Order Summary</h4>
+        <div id="checkoutCartList" class="space-y-2 text-gray-700"></div>
+        <p class="font-bold mt-2">Total Booking Fee: ₹<span id="checkoutTotal">0</span></p>
+        <p id="discountText" class="text-sm text-green-600"></p>
+        <p class="text-sm text-gray-500 mt-1">Note: Worker cost to be paid at doorstep after work is done.</p>
       </div>
     </div>
-    <div class="mt-8 pt-8 border-t border-gray-800 text-center">
-      <p>Copyright © 2025 kaamkarwalo.in - All Rights Reserved.</p>
+    <div class="flex justify-end gap-2">
+      <button id="cancelCheckout" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+      <button id="confirmBookingBtn" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Confirm & Go to Payment</button>
     </div>
   </div>
-</footer>
+</div>
 
-<!-- Script -->
+<!-- Footer -->
+<footer id="footer"></footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  const user = JSON.parse(localStorage.getItem("customer"));
-  if (!user || user.role !== "customer") {
-    alert("Unauthorized access. Please login first.");
-    window.location.href = "index.html";
-  }
-  document.getElementById("custName").textContent = user.name || "-";
-  document.getElementById("custId").textContent = user.userId || "-";
-  document.getElementById("custPhone").textContent = user.phone || "-";
-  document.getElementById("custEmail").textContent = user.email || "-";
-  document.getElementById("custRole").textContent = user.role || "-";
-  document.getElementById("custCity").textContent = user.city || "-";
-  document.getElementById("custDistrict").textContent = user.district || "-";
-  document.getElementById("custState").textContent = user.state || "-";
-  document.getElementById("custAddress").textContent = user.address || "-";
-  const locationLink = user.location || "#";
-  document.getElementById("custLocation").setAttribute("href", locationLink);
-  document.getElementById("custLocation").textContent = locationLink.includes("google") ? "Open Map" : "No Location";
+const API_BASE = "https://kaamkarwalo-backend.onrender.com";
 
-  function logout() {
-    localStorage.removeItem("customer");
-    window.location.href = "index.html";
+// header/footer load
+$(function(){
+  $("#header").load("header.html",()=>{$("#loginBtn,#registerBtn").hide();});
+  $("#footer").load("footer.html");
+});
+
+const user = JSON.parse(localStorage.getItem("customer"));
+if(!user || user.role!=="customer"){ alert("Login as customer"); window.location.href="index.html";}
+const customerId=user._id||user.userId||null;
+
+// fill profile
+$("#custName").text(user.name||"-");
+$("#custId").text(user.userId||user._id||"-");
+$("#custPhone").text(user.phone||"-");
+$("#custEmail").text(user.email||"-");
+$("#custRole").text(user.role||"-");
+$("#custCity").text(user.city||"-");
+$("#custDistrict").text(user.district||"-");
+$("#custState").text(user.state||"-");
+$("#custAddress").text(user.address||"-");
+$("#custLocation").attr("href",user.location||"#").text((user.location||"#").includes("google")?"Open Map":"No Location");
+
+$("#logoutBtn").click(()=>{ localStorage.removeItem("customer"); window.location.href="index.html"; });
+
+// fetch helper
+async function fetchJsonSafe(url){
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  }catch(e){
+    console.error("Fetch error", e);
+    return [];
+  }
+}
+
+// load bookings (only user's bookings)
+async function loadBookings(){
+  const bookingList = $("#bookingList");
+  bookingList.html(`<p>No bookings yet.</p>`);
+
+  if(!customerId) return;
+
+  let result = await fetchJsonSafe(`${API_BASE}/api/bookings`); // fetch all bookings
+  let bookings = Array.isArray(result) ? result : (result.bookings || []);
+
+  // filter bookings for this user
+  bookings = bookings.filter(b => (b.customerId === customerId) || (b.customer && b.customer._id === customerId));
+
+  if(bookings.length===0){
+    bookingList.html(`<p>No bookings yet.</p>`);
+    return;
   }
 
-  async function findWorkers() {
-    const state = document.getElementById("searchState").value.trim().toLowerCase();
-    const city = document.getElementById("searchCity").value.trim().toLowerCase();
-    const type = document.getElementById("searchType").value;
-    const res = await fetch(`https://kaamkarwalo-backend.onrender.com/api/users`);
-    const allUsers = await res.json();
-    const workers = allUsers.filter(w =>
-      w.role === 'worker' &&
-      w.state?.toLowerCase().includes(state) &&
-      w.city?.toLowerCase().includes(city) &&
-      (type ? w.workerType === type : true)
-    );
-    const container = document.getElementById("workerResults");
-    container.innerHTML = "";
-    if (workers.length === 0) {
-      container.innerHTML = `<p class="text-red-500">No workers found for the selected criteria.</p>`;
-      return;
-    }
-    workers.forEach(worker => {
-      const card = document.createElement("div");
-      card.className = "bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3";
-      card.innerHTML = `
-        <div>
-          <h4 class="font-bold">${worker.name}</h4>
-          <p>Type: ${worker.workerType}</p>
-          <p>City: ${worker.city}</p>
+  bookingList.html("");
+  bookings.forEach(b=>{
+    const price=b.price||49;
+    const paymentMethod=b.paymentMethod||b.paymentMode||"COD";
+    const paymentStatus=b.paymentStatus||b.payment_mode_status||"Pending";
+    const card=$(`
+      <div class="p-4 border rounded-lg shadow-sm bg-gray-50">
+        <div class="flex justify-between items-center">
+          <div>
+            <h4 class="font-semibold text-lg">${b.service}</h4>
+            <p class="text-sm text-gray-600">Worker: ${b.workerName||"Not Assigned"}</p>
+            <p class="text-sm text-gray-600">Phone: ${b.workerPhone||"N/A"}</p>
+            <p class="text-sm text-gray-600">Payment: ${paymentMethod} (${paymentStatus})</p>
+            <p class="text-sm text-gray-600">Purpose: ${b.purpose||"N/A"}</p>
+            <p class="text-sm text-gray-500 mt-2">Date: ${new Date(b.createdAt||b.date||b.created||Date.now()).toLocaleString()}</p>
+          </div>
+          <div class="text-right">
+            <span class="text-green-700 font-bold">₹${price}</span>
+            <p class="text-xs text-gray-500 mt-2">ID: ${b._id||b.id||"-"}</p>
+          </div>
         </div>
-        <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700" onclick="bookWorker('${worker._id}','${worker.name}','${worker.phone}','${worker.workerType}')">Book Now</button>
-      `;
-      container.appendChild(card);
-    });
-  }
+      </div>
+    `);
+    bookingList.append(card);
+  });
+}
 
-  async function bookWorker(workerId, workerName, workerPhone, service) {
-    const customer = JSON.parse(localStorage.getItem("customer"));
-    const bookingData = {
-      customerId: customer._id,
-      customerName: customer.name,
-      customerPhone: customer.phone,
-      workerId,
-      workerName,
-      workerPhone,
-      service
-    };
-    const res = await fetch('https://kaamkarwalo-backend.onrender.com/api/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bookingData)
-    });
-    const result = await res.json();
-    if (res.ok) {
-      alert('Booking confirmed and sent to admin !');
-    } else {
-      alert(result.error || 'Booking failed');
+
+// rest of cart, checkout, coupon logic remains same...
+function loadCart(){
+  const cart = JSON.parse(localStorage.getItem("cart"))||[];
+  const container = $("#cartList");
+  container.html("");
+  if(cart.length===0){ container.html("<p>Your cart is empty.</p>"); return; }
+
+  cart.forEach((item,idx)=>{
+    const card = $(`
+      <div class="bg-white shadow rounded-lg p-4 flex flex-col items-center">
+        <img src="${item.image||'https://via.placeholder.com/100'}" alt="${item.serviceName}" class="h-20 w-20 object-cover rounded mb-2">
+        <p class="font-semibold text-center">${item.serviceName}</p>
+        <p>Booking Fee: ₹49</p>
+        <div class="mt-2 flex gap-2">
+          <button class="text-sm px-2 py-1 bg-red-100 text-red-700 rounded" data-remove="${idx}">Remove</button>
+        </div>
+      </div>
+    `);
+    container.append(card);
+  });
+  container.find("[data-remove]").click(e=>{
+    const i = parseInt($(e.currentTarget).attr("data-remove"));
+    const cart = JSON.parse(localStorage.getItem("cart"))||[];
+    cart.splice(i,1);
+    localStorage.setItem("cart",JSON.stringify(cart));
+    loadCart();
+  });
+}
+
+// coupon
+let discount = 0;
+$("#applyCoupon").click(()=>{
+  const code = $("#couponCode").val().trim().toUpperCase();
+  if(code==="WELCOMETOKKW"){ discount=49; $("#couponMessage").text("Coupon applied! 100 % off on first Service"); }
+  else { discount=0; $("#couponMessage").text("Invalid coupon"); }
+});
+
+// checkout logic
+$("#proceedBtn").click(()=>{
+  const cart = JSON.parse(localStorage.getItem("cart"))||[];
+  if(cart.length===0){ alert("Your cart is empty."); return; }
+  $("#checkoutName").val(user.name||"");
+  $("#checkoutPhone").val(user.phone||"");
+  $("#checkoutAddress").val(user.address||"");
+  $("#checkoutCity").val(user.city||"");
+  $("#checkoutState").val(user.state||"");
+  $("#checkoutDistrict").val(user.district||"");
+
+  const cartListEl = $("#checkoutCartList").html("");
+  let total = 0;
+  cart.forEach(item=>{
+    total += 49;
+    cartListEl.append(`<div class="flex justify-between"><span>${item.serviceName}</span> <span>₹49</span></div>`);
+  });
+  if(discount>0){ total -= discount; $("#discountText").text(`Discount applied: ₹${discount}`); } 
+  else { $("#discountText").text(""); }
+  $("#checkoutTotal").text(total);
+  $("#checkoutModal").removeClass("hidden");
+});
+
+$("#cancelCheckout").click(()=>{ $("#checkoutModal").addClass("hidden"); });
+
+$("#confirmBookingBtn").click(()=>{
+  const cart = JSON.parse(localStorage.getItem("cart"))||[];
+  if(cart.length===0) return alert("Cart empty.");
+  const bookingsForPayment = cart.map(item=>({service:item.serviceName,image:item.image||"",price:49}));
+  const total = parseInt($("#checkoutTotal").text())||49*bookingsForPayment.length-discount;
+  const pendingPayment = {
+    bookings: bookingsForPayment,
+    total: total,
+    discount: discount,
+    purpose: $("#servicePurpose").val().trim(),
+    address: {
+      name: $("#checkoutName").val().trim(),
+      phone: $("#checkoutPhone").val().trim(),
+      address: $("#checkoutAddress").val().trim(),
+      city: $("#checkoutCity").val().trim(),
+      state: $("#checkoutState").val().trim(),
+      district: $("#checkoutDistrict").val().trim()
     }
-  }
+  };
+  localStorage.setItem("pendingPayment",JSON.stringify(pendingPayment));
+  $("#checkoutModal").addClass("hidden");
+  window.location.href="payment.html";
+});
+
+// initial load
+loadCart();
+loadBookings();
 </script>
 </body>
 </html>

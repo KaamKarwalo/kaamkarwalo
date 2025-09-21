@@ -77,7 +77,17 @@
    <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- External JS -->
-  <script src="main.js"></script>
+  <script src="main.js">
+    // Load header & footer
+$(function() {
+  $("#header").load("header.html", function() {
+    // Hide login/register buttons on this page
+    $("#loginBtn, #registerBtn").hide();
+  });
+  $("#footer").load("footer.html");
+});
+
+  </script>
  
   
 </body>
